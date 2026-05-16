@@ -1,6 +1,7 @@
 # Actividad 2: Calculadora IMC
 
-# Datos Personales
+
+# Datos Personales .........
 nombre = "Daniel"
 edad = 17
 peso = 79
