@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PharmaTech | NeuroScience Division</title>
+<meta name="description" content="Tecnología neurofarmacológica experimental para investigación avanzada y simulación clínica.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">PharmaTech.</div>
+    <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#servicios">Servicios</a></li>
+        <li><a href="#catalogo">Catálogo</a></li>
+    </ul>
+    <button class="btn-primary" onclick="abrirPortalSeguro()">
+        Portal Seguro
+    </button>
+</nav>
+<!-- HERO -->
+<header class="hero" id="inicio">
+    <div class="glow-effect"></div>
+    <h1>NeuroScience<br>Experimental Division</h1>
+    <p>
+        Tecnología neurofarmacológica experimental
+        para investigación avanzada y simulación clínica.
+    </p>
+</header>
+<!-- SERVICIOS -->
+<h2 class="section-title" id="servicios">Áreas Clínicas</h2>
+<section class="features">
+    <div class="card">
+        <h3>Neurocirugía Avanzada</h3>
+        <p>Sistemas de apoyo neuroquímico para procedimientos cerebrales complejos.</p>
+    </div>
+    <div class="card">
+        <h3>Sinapsis Artificial</h3>
+        <p>Investigación y desarrollo de conexiones neuronales experimentales.</p>
+    </div>
+    <div class="card">
+        <h3>Bioingeniería Cognitiva</h3>
+        <p>Simulación de respuesta neuronal y estabilización neuroeléctrica.</p>
+    </div>
+</section>
+<!-- PRODUCTOS -->
+<h2 class="section-title" id="catalogo">Catálogo Neurofarmacológico</h2>
+<section class="catalog-grid">
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=1200&auto=format&fit=crop" class="product-image" alt="Neurovexis-9">
+        <h3>Neurovexis-9</h3>
+        <p>Modulador sináptico experimental diseñado para estabilizar impulsos neuronales.</p>
+        <span class="price">₡15,000</span>
+        <button class="btn-primary" onclick="agregarCarrito('Neurovexis-9',15000)">Añadir al Carrito</button>
+    </div>
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1579165466741-7f35e4755660?q=80&w=1200&auto=format&fit=crop" class="product-image" alt="Synaptrol-XR">
+        <h3>Synaptrol-XR</h3>
+        <p>Compuesto neuroadaptativo orientado a regeneración neuronal artificial.</p>
+        <span class="price">₡22,500</span>
+        <button class="btn-primary" onclick="agregarCarrito('Synaptrol-XR',22500)">Añadir al Carrito</button>
+    </div>
+    <div class="product-card">
+        <img src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?q=80&w=1200&auto=format&fit=crop" class="product-image" alt="Cerebrix Delta">
+        <h3>Cerebrix Delta</h3>
+        <p>Neuroestimulante de precisión para interfaces neuronales avanzadas.</p>
+        <span class="price">₡18,000</span>
+        <button class="btn-primary" onclick="agregarCarrito('Cerebrix Delta',18000)">Añadir al Carrito</button>
+    </div>
+</section>
+<!-- CARRITO -->
+<section class="carrito">
+    <h2 class="section-title">Carrito de Compras</h2>
+    <div id="carritoContenido"></div>
+    <h3 style="margin-top:20px;">
+        Total: <span id="totalCarrito">₡0</span>
+    </h3>
+    <select id="metodoPago" class="select-pago">
+        <option value="sinpe">SINPE Móvil</option>
+        <option value="transferencia">Transferencia Bancaria</option>
+        <option value="tarjeta">Tarjeta</option>
+    </select>
+    <button class="btn-primary btn-full" onclick="finalizarCompra()">
+        Finalizar Compra
+    </button>
+</section>
+<!-- MODAL -->
+<div class="modal-overlay" id="customModal">
+    <div class="modal-content">
+        <button class="modal-close-x" onclick="closeModal()">×</button>
+        <h2 id="modalTitle">Título</h2>
+        <div id="modalText">Texto</div>
+        <br>
+        <button class="btn-close" onclick="closeModal()">Cerrar</button>
+    </div>
+</div>
+<!-- FLOATING ASSISTANT -->
+<div id="assistant">
+    <img src="logo.png" id="assistantLogo" alt="Asistente IA">
+    <div class="assistant-tooltip">Asistente IA</div>
+</div>
+<!-- CHAT PANEL -->
+<div id="chatPanel">
+    <div class="panelHeader">
+        <img src="logo.png" alt="PharmaTech IA">
+        <div class="panelHeader-info">
+            <h3>PharmaTech IA</h3>
+            <span class="status-online">Online</span>
+        </div>
+        <button id="closeChatBtn" onclick="toggleChat()">×</button>
+    </div>
+    <div id="messages"></div>
+    <div class="inputArea">
+        <input type="text" id="chatInput" placeholder="Escribe tu pregunta...">
+        <button onclick="sendMessage()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>
