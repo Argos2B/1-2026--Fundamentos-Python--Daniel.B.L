@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PharmaTech | NeuroScience Division</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+}
+
+body{
+    background:#09090b;
+    color:white;
+    overflow-x:hidden;
+}
+
+/* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 50px;
+    background:rgba(9,9,11,0.95);
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+.logo{
+    font-size:1.7rem;
+    font-weight:bold;
+    color:#a855f7;
+    cursor:pointer;
+}
+
+.nav-links{
+    display:flex;
+    gap:30px;
+    list-style:none;
+}
+
+.nav-links a{
+    color:#a1a1aa;
+    text-decoration:none;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:white;
+}
+
+/* BOTONES */
+
+.btn-primary{
+    background:#7e22ce;
+    color:white;
+    border:none;
+    padding:12px 20px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+    font-weight:bold;
+}
+
+.btn-primary:hover{
+    background:#6b21a8;
+    transform:scale(1.05);
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:120px 20px;
+    position:relative;
+}
+
+.glow-effect{
+    position:absolute;
+    top:-50%;
+    left:50%;
+    transform:translateX(-50%);
+    width:900px;
+    height:600px;
+    background:radial-gradient(
+        ellipse at bottom,
+        rgba(126,34,206,0.4) 0%,
+        transparent 60%
+    );
+    border-radius:50%;
+    z-index:-1;
+}
+
+.hero h1{
+    font-size:4.5rem;
+    margin-bottom:20px;
+    line-height:1.1;
+}
+
+.hero p{
+    color:#a1a1aa;
+    max-width:800px;
+    margin:auto;
+    font-size:1.2rem;
+}
+
+/* TITULOS */
+
+.section-title{
+    text-align:center;
+    font-size:2.8rem;
+    margin:70px 0 30px 0;
+}
+
+/* SERVICIOS */
+
+.features{
+    display:flex;
+    justify-content:center;
+    gap:30px;
+    flex-wrap:wrap;
+    padding:20px;
+}
+
+.card{
+    background:#18181b;
+    border:1px solid rgba(255,255,255,0.1);
+    width:320px;
+    padding:30px;
+    border-radius:18px;
+    transition:0.3s;
+}
+
+.card:hover{
+    border-color:#a855f7;
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(126,34,206,0.3);
+}
+
+/* PRODUCTOS */
+
+.catalog-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:35px;
+    padding:60px;
+    max-width:1500px;
+    margin:auto;
+}
+
+.product-card{
+    background:#18181b;
+    border-radius:18px;
+    padding:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    transition:0.3s;
+    text-align:center;
+}
+
+.product-card:hover{
+    border-color:#7e22ce;
+    transform:translateY(-5px);
+    box-shadow:0 0 25px rgba(126,34,206,0.3);
+}
+
+.product-image{
+    width:100%;
+    height:240px;
+    object-fit:cover;
+    border-radius:14px;
+    margin-bottom:20px;
+    border:1px solid rgba(255,255,255,0.1);
+    filter:saturate(1.1) contrast(1.05);
+}
+
+.price{
+    display:block;
+    font-size:2rem;
+    color:#a855f7;
+    margin:20px 0;
+    font-weight:bold;
+}
+
+/* CARRITO */
+
+.carrito{
+    max-width:900px;
+    margin:50px auto;
+    background:#18181b;
+    padding:35px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+/* MODAL */
+
+.modal-overlay{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.8);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    opacity:0;
+    pointer-events:none;
+    transition:0.3s;
+    z-index:1000;
+}
+
+.modal-overlay.active{
+    opacity:1;
+    pointer-events:auto;
+}
+
+.modal-content{
+    background:#18181b;
+    padding:40px;
+    border-radius:18px;
+    width:90%;
+    max-width:600px;
+    border:1px solid #a855f7;
+    max-height:90vh;
+    overflow-y:auto;
+}
+
+.modal-content h2{
+    margin-bottom:20px;
+}
+
+.modal-content p{
+    color:#a1a1aa;
+    margin-bottom:20px;
+}
+
+.btn-close{
+    background:#3f3f46;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="navbar">
+
+    <div class="logo">
+        PharmaTech.
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="#">Inicio</a></li>
+        <li><a href="#">Servicios</a></li>
+        <li><a href="#">Catálogo</a></li>
+    </ul>
+
+    <button class="btn-primary"
+    onclick="abrirPortalSeguro()">
+
+        Portal Seguro
+
+    </button>
+
+</nav>
+
+<!-- HERO -->
+
+<header class="hero">
+
+    <div class="glow-effect"></div>
+
+    <h1>
+        NeuroScience<br>
+        Experimental Division
+    </h1>
+
+    <p>
+        Tecnología neurofarmacológica experimental
+        para investigación avanzada y simulación clínica.
+    </p>
+
+</header>
+
+<!-- SERVICIOS -->
+
+<h2 class="section-title">
+    Áreas Clínicas
+</h2>
+
+<section class="features">
+
+    <div class="card">
+        <h3>Neurocirugía Avanzada</h3>
+        <p>
+            Sistemas de apoyo neuroquímico para
+            procedimientos cerebrales complejos.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Sinapsis Artificial</h3>
+        <p>
+            Investigación y desarrollo de conexiones
+            neuronales experimentales.
+        </p>
+    </div>
+
+    <div class="card">
+        <h3>Bioingeniería Cognitiva</h3>
+        <p>
+            Simulación de respuesta neuronal y
+            estabilización neuroeléctrica.
+        </p>
+    </div>
+
+</section>
+
+<!-- PRODUCTOS -->
+
+<h2 class="section-title">
+    Catálogo Neurofarmacológico
+</h2>
+
+<section class="catalog-grid">
+
+<div class="product-card">
+
+    <img
+    src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?q=80&w=1200&auto=format&fit=crop"
+    class="product-image">
+
+    <h3>Neurovexis-9</h3>
+
+    <p>
+        Modulador sináptico experimental diseñado
+        para estabilizar impulsos neuronales.
+    </p>
+
+    <span class="price">
+        ₡15,000
+    </span>
+
+    <button class="btn-primary"
+    onclick="agregarCarrito('Neurovexis-9',15000)">
+
+        Añadir al Carrito
+
+    </button>
+
+</div>
+
+<div class="product-card">
+
+    <img
+    src="https://images.unsplash.com/photo-1579165466741-7f35e4755660?q=80&w=1200&auto=format&fit=crop"
+    class="product-image">
+
+    <h3>Synaptrol-XR</h3>
+
+    <p>
+        Compuesto neuroadaptativo orientado
+        a regeneración neuronal artificial.
+    </p>
+
+    <span class="price">
+        ₡22,500
+    </span>
+
+    <button class="btn-primary"
+    onclick="agregarCarrito('Synaptrol-XR',22500)">
+
+        Añadir al Carrito
+
+    </button>
+
+</div>
+
+<div class="product-card">
+
+    <img
+    src="https://images.unsplash.com/photo-1607619056574-7b8d3ee536b2?q=80&w=1200&auto=format&fit=crop"
+    class="product-image">
+
+    <h3>Cerebrix Delta</h3>
+
+    <p>
+        Neuroestimulante de precisión para
+        interfaces neuronales avanzadas.
+    </p>
+
+    <span class="price">
+        ₡18,000
+    </span>
+
+    <button class="btn-primary"
+    onclick="agregarCarrito('Cerebrix Delta',18000)">
+
+        Añadir al Carrito
+
+    </button>
+
+</div>
+
+</section>
+
+<!-- CARRITO -->
+
+<section class="carrito">
+
+<h2 class="section-title">
+    Carrito de Compras
+</h2>
+
+<div id="carritoContenido"></div>
+
+<h3 style="margin-top:20px;">
+    Total:
+    <span id="totalCarrito">
+        ₡0
+    </span>
+</h3>
+
+<select id="metodoPago"
+style="
+    width:100%;
+    padding:12px;
+    margin-top:20px;
+    border:none;
+    border-radius:10px;
+    background:#27272a;
+    color:white;
+">
+
+    <option value="sinpe">
+        SINPE Móvil
+    </option>
+
+    <option value="transferencia">
+        Transferencia Bancaria
+    </option>
+
+    <option value="tarjeta">
+        Tarjeta
+    </option>
+
+</select>
+
+<button class="btn-primary"
+style="
+    width:100%;
+    margin-top:20px;
+"
+onclick="finalizarCompra()">
+
+    Finalizar Compra
+
+</button>
+
+</section>
+
+<!-- MODAL -->
+
+<div class="modal-overlay" id="customModal">
+
+<div class="modal-content">
+
+    <h2 id="modalTitle">
+        Título
+    </h2>
+
+    <div id="modalText">
+        Texto
+    </div>
+
+    <br>
+
+    <button class="btn-close"
+    onclick="closeModal()">
+
+        Cerrar
+
+    </button>
+
+</div>
+
+</div>
+
+<!-- SCRIPT -->
+
+<script>
+
+let carrito = [];
+let total = 0;
+
+/* MODAL */
+
+function openModal(title,text){
+
+    document.getElementById("modalTitle")
+    .innerHTML = title;
+
+    document.getElementById("modalText")
+    .innerHTML = text;
+
+    document.getElementById("customModal")
+    .classList.add("active");
+}
+
+function closeModal(){
+
+    document.getElementById("customModal")
+    .classList.remove("active");
+}
+
+/* CARRITO */
+
+function agregarCarrito(nombre,precio){
+
+    carrito.push({
+        nombre:nombre,
+        precio:precio
+    });
+
+    total += precio;
+
+    actualizarCarrito();
+
+    openModal(
+        "Producto agregado",
+        nombre + " añadido al carrito."
+    );
+}
+
+function actualizarCarrito(){
+
+    const carritoContenido =
+    document.getElementById("carritoContenido");
+
+    carritoContenido.innerHTML = "";
+
+    carrito.forEach((producto,index)=>{
+
+        carritoContenido.innerHTML += `
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            background:#27272a;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:10px;
+        ">
+
+            <span>
+                ${producto.nombre}
+            </span>
+
+            <div>
+
+                ₡${producto.precio.toLocaleString()}
+
+                <button
+                onclick="eliminarProducto(${index})"
+                style="
+                    margin-left:10px;
+                    background:red;
+                    border:none;
+                    color:white;
+                    padding:5px 10px;
+                    border-radius:5px;
+                    cursor:pointer;
+                ">
+
+                    X
+
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("totalCarrito")
+    .innerText =
+    "₡" + total.toLocaleString();
+}
+
+function eliminarProducto(index){
+
+    total -= carrito[index].precio;
+
+    carrito.splice(index,1);
+
+    actualizarCarrito();
+}
+
+/* PAGOS */
+
+function finalizarCompra(){
+
+    if(carrito.length === 0){
+
+        openModal(
+            "Carrito vacío",
+            "Agrega productos primero."
+        );
+
+        return;
+    }
+
+    const metodo =
+    document.getElementById("metodoPago").value;
+
+    let metodoHTML = "";
+
+    if(metodo === "sinpe"){
+
+        metodoHTML = `
+            <strong>SINPE Móvil</strong><br><br>
+            Número: 8888-8888
+        `;
+
+    } else if(metodo === "transferencia"){
+
+        metodoHTML = `
+            <strong>Transferencia Bancaria</strong><br><br>
+            Banco Nacional<br>
+            Cuenta: 123456789
+        `;
+
+    } else {
+
+        metodoHTML = `
+
+        <strong>Pago con Tarjeta</strong><br><br>
+
+        <input type="text"
+        placeholder="Número de tarjeta"
+        style="
+            width:100%;
+            padding:10px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Nombre del titular"
+        style="
+            width:100%;
+            padding:10px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="CVV"
+        style="
+            width:100%;
+            padding:10px;
+            border:none;
+            border-radius:8px;
+        ">
+        `;
+    }
+
+    let formulario = `
+
+    <div style="text-align:left;">
+
+        <h3 style="
+            color:#a855f7;
+            margin-bottom:20px;
+        ">
+            Información de Envío
+        </h3>
+
+        <input type="text"
+        placeholder="Nombre completo"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Provincia"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Cantón"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Código Postal"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Dirección Exacta"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:10px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <input type="text"
+        placeholder="Teléfono"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:20px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <h3 style="
+            color:#a855f7;
+            margin-bottom:15px;
+        ">
+            Verificación Médica
+        </h3>
+
+        <input type="text"
+        id="credencial"
+        placeholder="Credencial Médica"
+        style="
+            width:100%;
+            padding:12px;
+            margin-bottom:20px;
+            border:none;
+            border-radius:8px;
+        ">
+
+        <div style="
+            background:#27272a;
+            padding:15px;
+            border-radius:10px;
+            margin-bottom:20px;
+        ">
+            ${metodoHTML}
+        </div>
+
+        <h3 style="
+            margin-bottom:20px;
+        ">
+            Total:
+            ₡${total.toLocaleString()}
+        </h3>
+
+        <button
+        onclick="procesarCompraFinal()"
+        class="btn-primary"
+        style="
+            width:100%;
+        ">
+
+            Confirmar Compra
+
+        </button>
+
+    </div>
+
+    `;
+
+    openModal(
+        "Procesar Compra",
+        formulario
+    );
+}
+
+/* COMPRA FINAL */
+
+function procesarCompraFinal(){
+
+    const credencial =
+    document.getElementById("credencial").value;
+
+    if(credencial !== "2345"){
+
+        openModal(
+            "Credencial inválida",
+            "La credencial médica no es válida."
+        );
+
+        return;
+    }
+
+    openModal(
+
+        "Compra Exitosa",
+
+        `
+
+        <div style="
+            text-align:center;
+            padding:30px;
+        ">
+
+            <div style="
+                font-size:90px;
+                color:#22c55e;
+                margin-bottom:20px;
+            ">
+                ✔
+            </div>
+
+            <h2 style="
+                color:#22c55e;
+                margin-bottom:15px;
+            ">
+                Compra Exitosa
+            </h2>
+
+            <p style="
+                font-size:1rem;
+                line-height:1.7;
+                color:#d4d4d8;
+            ">
+                Su solicitud fue procesada correctamente.<br><br>
+
+                Tiempo estimado de entrega:
+                <strong>
+                    24 a 36 horas
+                </strong>.
+            </p>
+
+        </div>
+
+        `
+    );
+
+    carrito = [];
+    total = 0;
+
+    actualizarCarrito();
+}
+
+/* PORTAL SEGURO */
+
+function abrirPortalSeguro(){
+
+    const clave =
+    prompt("Ingrese la clave:");
+
+    if(clave === "1234"){
+
+        openModal(
+            "Acceso autorizado",
+            "Bienvenido al Portal Seguro."
+        );
+
+    } else {
+
+        openModal(
+            "Acceso denegado",
+            "Clave incorrecta."
+        );
+    }
+}
+
+</script>
+
+</body>
+</html>
