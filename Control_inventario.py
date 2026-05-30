@@ -12,10 +12,60 @@ productos = {
     "Huevos": 3.50,
     "Aceite": 4.25,
     "Cafe": 5.00,
-    "Gaseosa": 2.75
-}
+    "Harina": 1.60,
+    "Maiz": 1.40,
+    "Avena": 2.10,
+    "Lentejas": 2.20,
+    "Garbanzos": 2.30,
 
-inventario = []
+    # Bebidas
+    "Agua": 1.00,
+    "Gaseosa": 2.75,
+    "Jugo Naranja": 2.50,
+    "Jugo Manzana": 2.40,
+    "Té Frio": 1.80,
+    "Bebida Energetica": 2.90,
+    "Cafe Frio": 2.20,
+    "Chocolate Liquido": 2.60,
+    "Agua Mineral": 1.30,
+    "Batido": 3.00,
+
+    # Panadería
+    "Pan Blanco": 1.20,
+    "Pan Integral": 1.50,
+    "Galletas": 1.80,
+    "Queque": 4.00,
+    "Croissant": 1.50,
+    "Donas": 1.20,
+    "Tortillas": 2.00,
+    "Pan Hamburguesa": 1.80,
+    "Pan Hot Dog": 1.70,
+    "Pastel": 8.00,
+
+    # Limpieza
+    "Jabon": 1.50,
+    "Detergente": 4.50,
+    "Cloro": 2.00,
+    "Suavizante": 3.50,
+    "Esponja": 1.00,
+    "Papel Higienico": 5.00,
+    "Servilletas": 1.80,
+    "Limpiador Piso": 3.20,
+    "Desinfectante": 2.90,
+    "Bolsa Basura": 2.50,
+
+    # Higiene personal
+    "Shampoo": 4.50,
+    "Acondicionador": 4.30,
+    "Pasta Dental": 2.50,
+    "Cepillo Dental": 1.80,
+    "Jabon Bano": 1.20,
+    "Desodorante": 3.50,
+    "Papel Facial": 2.00,
+    "Crema Corporal": 4.00,
+    "Rastrillo": 2.50,
+    "Enjuague Bucal": 3.80
+}
 
 print("=" * 60)
 print("     INVENTARIO DE SUPERMERCADO")
