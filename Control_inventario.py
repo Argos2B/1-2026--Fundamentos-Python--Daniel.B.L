@@ -1,16 +1,71 @@
 # ==========================================
-# SISTEMA DE INVENTARIO DE SUPERMERCADO
+# SISTEMA DE VENTAS DE SUPERMERCADO
 # ==========================================
 
 productos = {
+    # Frutas
+    "Manzana": 0.50,
+    "Banano": 0.30,
+    "Naranja": 0.40,
+    "Pera": 0.60,
+    "Uva": 2.50,
+    "Sandia": 5.00,
+    "Melon": 3.50,
+    "Piña": 2.75,
+    "Mango": 0.80,
+    "Papaya": 2.20,
+    "Fresa": 2.80,
+    "Kiwi": 0.90,
+    "Limon": 0.20,
+    "Mandarina": 0.35,
+    "Coco": 2.00,
+
+    # Verduras
+    "Papa": 0.40,
+    "Tomate": 0.50,
+    "Cebolla": 0.45,
+    "Zanahoria": 0.35,
+    "Lechuga": 1.00,
+    "Pepino": 0.60,
+    "Chayote": 0.55,
+    "Brocoli": 1.50,
+    "Coliflor": 1.60,
+    "Chile Dulce": 0.70,
+    "Ajo": 0.25,
+    "Apio": 0.80,
+    "Espinaca": 1.20,
+    "Repollo": 1.10,
+    "Yuca": 0.75,
+
+    # Carnes
+    "Pollo": 4.50,
+    "Carne Res": 7.50,
+    "Carne Cerdo": 5.80,
+    "Pechuga Pollo": 5.20,
+    "Costilla Cerdo": 6.50,
+    "Salchicha": 3.50,
+    "Jamon": 2.80,
+    "Mortadela": 2.20,
+    "Chorizo": 4.00,
+    "Tocino": 4.50,
+
+    # Lácteos
+    "Leche": 1.50,
+    "Queso": 4.20,
+    "Mantequilla": 2.50,
+    "Yogurt": 2.00,
+    "Crema": 1.80,
+    "Helado": 4.50,
+    "Leche Condensada": 2.30,
+    "Leche Evaporada": 2.10,
+    "Queso Crema": 2.80,
+    "Huevos": 3.50,
+
+    # Granos y básicos
     "Arroz": 2.50,
     "Frijoles": 2.00,
     "Azucar": 1.80,
     "Sal": 0.90,
-    "Leche": 1.50,
-    "Pan": 1.20,
-    "Huevos": 3.50,
-    "Aceite": 4.25,
     "Cafe": 5.00,
     "Harina": 1.60,
     "Maiz": 1.40,
@@ -68,45 +123,47 @@ productos = {
 }
 
 print("=" * 60)
-print("     INVENTARIO DE SUPERMERCADO")
+print("SUPERMERCADO")
 print("=" * 60)
 
-for nombre, precio in productos.items():
-    while True:
-        try:
-            cantidad = int(input(f"Ingrese la cantidad de {nombre} (${precio:.2f}): "))
-            if cantidad >= 0:
-                break
-            print("La cantidad no puede ser negativa.")
-        except ValueError:
-            print("Ingrese un número válido.")
+carrito = []
+total_compra = 0
 
-    valor_total = precio * cantidad
+while True:
+    nombre = input(
+        "\nIngrese el nombre del producto "
+        "(o 'fin' para terminar): "
+    ).title()
 
-    inventario.append({
-        "nombre": nombre,
-        "precio": precio,
-        "cantidad": cantidad,
-        "valor_total": valor_total
-    })
+    if nombre == "Fin":
+        break
 
-print("\n")
-print("=" * 75)
-print(f"{'PRODUCTO':20} {'PRECIO':10} {'CANTIDAD':10} {'VALOR TOTAL':15}")
-print("=" * 75)
+    if nombre not in productos:
+        print("Producto no encontrado.")
+        continue
 
-total_general = 0
+    cantidad = int(input("Cantidad: "))
 
-for producto in inventario:
+    precio = productos[nombre]
+    subtotal = precio * cantidad
+
+    carrito.append([nombre, precio, cantidad, subtotal])
+    total_compra += subtotal
+
+    print(f"Precio unitario: ${precio:.2f}")
+    print(f"Subtotal: ${subtotal:.2f}")
+
+print("\nFACTURA")
+print("-" * 60)
+print(f"{'Producto':20}{'Precio':10}{'Cant.':10}{'Subtotal':10}")
+
+for item in carrito:
     print(
-        f"{producto['nombre']:20}"
-        f"${producto['precio']:<9.2f}"
-        f"{producto['cantidad']:<10}"
-        f"${producto['valor_total']:<14.2f}"
+        f"{item[0]:20}"
+        f"${item[1]:<9.2f}"
+        f"{item[2]:<10}"
+        f"${item[3]:.2f}"
     )
-    total_general += producto["valor_total"]
 
-print("=" * 75)
-print(f"VALOR TOTAL DEL INVENTARIO: ${total_general:.2f}")
-print("=" * 75) 
-print("¡Inventario registrado exitosamente!") 
+print("-" * 60)
+print(f"TOTAL A PAGAR: ${total_compra:.2f}")
