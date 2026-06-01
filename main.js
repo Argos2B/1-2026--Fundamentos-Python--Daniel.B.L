@@ -150,12 +150,7 @@ function procesarCompraFinal() {
 // PORTAL SEGURO
 // ========================
 function abrirPortalSeguro() {
-    const clave = prompt("Ingrese clave de acceso:");
-    if (clave === "12345") {
-        openModal("Acceso autorizado", "Bienvenido al Portal Seguro de NeuroScience Division.");
-    } else {
-        openModal("Acceso denegado", "Clave de acceso incorrecta.");
-    }
+    window.open('portal_seguro.html', 'PortalSeguro', 'width=1200,height=800,resizable=yes,scrollbars=yes');
 }
 // ========================
 // FLOATING ASSISTANT

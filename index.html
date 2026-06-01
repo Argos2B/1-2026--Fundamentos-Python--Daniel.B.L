@@ -8,7 +8,11 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- NAVBAR -->
+    <div id="mainContent">
+        <video class="video-fondo" autoplay muted loop>
+            <source src="video web.mp4" type="video/mp4">
+        </video>
+    <!-- NAVBAR -->
 <nav class="navbar">
     <div class="logo">PharmaTech.</div>
     <ul class="nav-links">
@@ -122,6 +126,22 @@
         </button>
     </div>
 </div>
+<audio id="backgroundMusic" autoplay loop hidden>
+    <source src="musica web.mp3" type="audio/mpeg">
+    Tu navegador no soporta reproducción de audio.
+</audio>
+    </div>
+
+<script>
+    window.addEventListener('load', () => {
+        const audio = document.getElementById('backgroundMusic');
+        if (audio) {
+            audio.play().catch(() => {
+                console.log('Autoplay bloqueado por el navegador.');
+            });
+        }
+    });
+</script>
 <script src="main.js"></script>
 </body>
 </html>

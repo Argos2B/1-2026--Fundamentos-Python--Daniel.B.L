@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Seguro | PharmaTech NeuroScience</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', 'Garamond', serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0804 0%, #1a1410 100%);
+            color: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .video-fondo {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* ========================
+           OVERLAY DE CARGA
+           ======================== */
+        .overlay-entrada {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 9999;
+            pointer-events: none;
+            animation: overlayFadeOut 1.4s ease forwards;
+        }
+
+        @keyframes overlayFadeOut {
+            0%   { opacity: 1; }
+            60%  { opacity: 1; }
+            100% { opacity: 0; display: none; }
+        }
+
+        /* ========================
+           ANIMACIONES DE ENTRADA
+           ======================== */
+        @keyframes loginEntrada {
+            0% {
+                opacity: 0;
+                transform: translateY(60px) scale(0.92);
+                box-shadow: 0 0 0px rgba(212, 175, 55, 0);
+            }
+            60% {
+                opacity: 1;
+                transform: translateY(-8px) scale(1.01);
+            }
+            80% {
+                transform: translateY(4px) scale(0.99);
+                box-shadow: 0 0 60px rgba(212, 175, 55, 0.5),
+                            inset 0 0 30px rgba(212, 175, 55, 0.1);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                box-shadow:
+                    0 0 40px rgba(212, 175, 55, 0.3),
+                    inset 0 0 20px rgba(212, 175, 55, 0.05);
+            }
+        }
+
+        @keyframes elementoEntrada {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+                filter: blur(4px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes lineaGlow {
+            0%   { width: 0%; opacity: 0; }
+            100% { width: 60%; opacity: 1; }
+        }
+
+        .login-container.animando {
+            animation: loginEntrada 1s cubic-bezier(0.22, 1, 0.36, 1) 0.8s both;
+        }
+
+        .login-container.animando .portal-logo {
+            animation: elementoEntrada 0.7s ease 1.4s both;
+        }
+
+        .login-container.animando .portal-subtitle {
+            animation: elementoEntrada 0.6s ease 1.6s both;
+        }
+
+        .login-container.animando .separador-glow {
+            animation: lineaGlow 0.8s ease 1.8s both;
+        }
+
+        .login-container.animando .form-group:nth-child(1) {
+            animation: elementoEntrada 0.6s ease 1.9s both;
+        }
+
+        .login-container.animando .form-group:nth-child(2) {
+            animation: elementoEntrada 0.6s ease 2.05s both;
+        }
+
+        .login-container.animando .btn-login {
+            animation: elementoEntrada 0.6s ease 2.2s both;
+        }
+
+        .login-container.animando .credenciales-hint {
+            animation: elementoEntrada 0.5s ease 2.4s both;
+        }
+
+        /* Línea decorativa dorada */
+        .separador-glow {
+            display: block;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            border-radius: 2px;
+            margin: 0 auto 5px;
+            opacity: 0;
+        }
+
+        /* ========================
+           LOGIN SECTION
+           ======================== */
+        .login-container {
+            background: linear-gradient(135deg, #1a1815 0%, #2a251f 100%);
+            border: 2px solid #d4af37;
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 
+                0 0 40px rgba(212, 175, 55, 0.3),
+                inset 0 0 20px rgba(212, 175, 55, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .portal-logo {
+            text-align: center;
+            color: #d4af37;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            text-shadow: 
+                0 0 15px rgba(212, 175, 55, 0.6),
+                0 0 30px rgba(212, 175, 55, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .portal-subtitle {
+            text-align: center;
+            color: #a1a1aa;
+            font-size: 0.95rem;
+            font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: #d4af37;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.4);
+        }
+
+        .form-group input {
+            background: #2a251f;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            color: #d4af37;
+            padding: 12px 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Georgia', serif;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(212, 175, 55, 0.5);
+        }
+
+        .form-group input:focus {
+            border-color: #d4af37;
+            box-shadow: 
+                0 0 15px rgba(212, 175, 55, 0.5),
+                inset 0 0 5px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #2a2520 0%, #3d3530 100%);
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            padding: 14px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .btn-login:hover {
+            background: linear-gradient(135deg, #3d3530 0%, #4a4238 100%);
+            box-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.6),
+                0 0 40px rgba(212, 175, 55, 0.3),
+                inset 0 0 10px rgba(212, 175, 55, 0.2);
+            color: #f0e68c;
+            border-color: #f0e68c;
+            transform: scale(1.02);
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+            font-size: 0.9rem;
+        }
+
+        /* ========================
+           DASHBOARD SECTION
+           ======================== */
+        .dashboard {
+            display: none;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1a1815 0%, #2a251f 100%);
+            padding: 25px;
+            border: 2px solid #d4af37;
+            border-radius: 15px;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+        }
+
+        .dashboard-title {
+            font-size: 2rem;
+            color: #d4af37;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .user-info {
+            text-align: right;
+        }
+
+        .user-name {
+            font-size: 1.2rem;
+            color: #f5f5f5;
+            margin-bottom: 5px;
+        }
+
+        .user-email {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+        }
+
+        .btn-logout {
+            background: #8b0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background: #a00000;
+            transform: scale(1.05);
+        }
+
+        .dashboard-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .dashboard-card {
+            background: linear-gradient(135deg, #1a1815 0%, #2a251f 100%);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            border-color: #d4af37;
+            box-shadow: 
+                0 0 40px rgba(212, 175, 55, 0.4),
+                inset 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: #d4af37;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+        }
+
+        .card-content {
+            color: #e1e1e1;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .info-label {
+            color: #a1a1aa;
+            font-weight: bold;
+        }
+
+        .info-value {
+            color: #d4af37;
+            font-weight: 700;
+        }
+
+        .orders-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            background: rgba(212, 175, 55, 0.05);
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 3px solid #d4af37;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            color: #e1e1e1;
+        }
+
+        .order-date {
+            color: #a1a1aa;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px;
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .user-info {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Overlay de entrada cinematográfica -->
+    <div class="overlay-entrada" id="overlayEntrada"></div>
+
+    <video class="video-fondo" autoplay muted loop playsinline>
+        <source src="video de portal seguro.mp4" type="video/mp4">
+    </video>
+
+    <!-- LOGIN SECTION -->
+    <div class="login-container animando" id="loginContainer">
+        <div class="portal-logo">PORTAL SEGURO</div>
+        <div class="portal-subtitle">PharmaTech | NeuroScience Division</div>
+        <span class="separador-glow"></span>
+        
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input 
+                    type="text" 
+                    id="usuario" 
+                    placeholder="Ingrese su usuario" 
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="contrasena">Contraseña</label>
+                <input 
+                    type="password" 
+                    id="contrasena" 
+                    placeholder="Ingrese su contraseña" 
+                    required
+                >
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <button type="submit" class="btn-login">Acceder</button>
+        </form>
+
+        <div class="credenciales-hint" style="text-align: center; color: #a1a1aa; font-size: 0.9rem;">
+            <p style="margin-top: 20px;">Credenciales de prueba:</p>
+            <p style="color: #cea624;">Usuario: <strong>admin</strong></p>
+            <p style="color: #d4af37;">Contraseña: <strong>12345</strong></p>
+        </div>
+    </div>
+
+    <!-- DASHBOARD SECTION -->
+    <div class="dashboard" id="dashboard">
+        <div class="dashboard-header">
+            <div class="dashboard-title">PANEL DE USUARIO</div>
+            <div>
+                <div class="user-info">
+                    <div class="user-name" id="displayUserName">Usuario</div>
+                    <div class="user-email">usuario@pharmatech.com</div>
+                    <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <!-- PERFIL -->
+            <div class="dashboard-card">
+                <div class="card-title">📋 Perfil</div>
+                <div class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">Nombre:</span>
+                        <span class="info-value" id="profileName">Usuario</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">usuario@pharmatech.com</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Teléfono:</span>
+                        <span class="info-value">+506 2000 0000</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Membresía:</span>
+                        <span class="info-value">Premium</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ESTADO CUENTA -->
+            <div class="dashboard-card">
+                <div class="card-title">💰 Estado de Cuenta</div>
+                <div class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">Saldo:</span>
+                        <span class="info-value">₡45,750</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Crédito Disponible:</span>
+                        <span class="info-value">₡30,000</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Compras Este Mes:</span>
+                        <span class="info-value">12</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Puntos Recompensa:</span>
+                        <span class="info-value">2,450</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COMPRAS RECIENTES -->
+            <div class="dashboard-card">
+                <div class="card-title">🛍️ Compras Recientes</div>
+                <div class="card-content">
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <strong>Neurovexis-9</strong>
+                            <br><span class="order-date">28 de mayo, 2026</span>
+                        </div>
+                        <div class="order-item">
+                            <strong>Synaptrol-XR (2x)</strong>
+                            <br><span class="order-date">26 de mayo, 2026</span>
+                        </div>
+                        <div class="order-item">
+                            <strong>Cerebrix Delta</strong>
+                            <br><span class="order-date">24 de mayo, 2026</span>
+                        </div>
+                        <div class="order-item">
+                            <strong>Kit Neurovexis Completo</strong>
+                            <br><span class="order-date">20 de mayo, 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TICKETS SOPORTE -->
+            <div class="dashboard-card">
+                <div class="card-title">🎫 Tickets de Soporte</div>
+                <div class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">Abiertos:</span>
+                        <span class="info-value">1</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Resueltos:</span>
+                        <span class="info-value">8</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tiempo Promedio:</span>
+                        <span class="info-value">2.5 horas</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Satisfacción:</span>
+                        <span class="info-value">★★★★★</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MÉTODOS PAGO -->
+            <div class="dashboard-card">
+                <div class="card-title">💳 Métodos de Pago</div>
+                <div class="card-content">
+                    <div class="order-item">
+                        <strong>Tarjeta Visa</strong>
+                        <br>****-****-****-2847
+                    </div>
+                    <div class="order-item">
+                        <strong>SINPE Móvil</strong>
+                        <br>+506 8000 0000
+                    </div>
+                    <div class="order-item">
+                        <strong>Transferencia Bancaria</strong>
+                        <br>Cuenta Activa
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const usuario = document.getElementById("usuario").value;
+            const contrasena = document.getElementById("contrasena").value;
+            const errorMsg = document.getElementById("errorMessage");
+
+            // Validar credenciales
+            if (usuario === "admin" && contrasena === "12345") {
+                // Login exitoso
+                document.getElementById("loginContainer").style.display = "none";
+                document.getElementById("dashboard").style.display = "block";
+                document.getElementById("displayUserName").textContent = usuario.charAt(0).toUpperCase() + usuario.slice(1);
+                document.getElementById("profileName").textContent = usuario.charAt(0).toUpperCase() + usuario.slice(1);
+                errorMsg.style.display = "none";
+                localStorage.setItem("portalUsuario", usuario);
+            } else {
+                // Error en login
+                errorMsg.textContent = "Usuario o contraseña incorrectos";
+                errorMsg.style.display = "block";
+            }
+        }
+
+        function handleLogout() {
+            if (confirm("¿Desea cerrar sesión?")) {
+                const loginEl = document.getElementById("loginContainer");
+                loginEl.style.display = "flex";
+                // Re-disparar animación de entrada al volver al login
+                loginEl.classList.remove("animando");
+                void loginEl.offsetWidth; // reflow para reiniciar animación
+                loginEl.classList.add("animando");
+                document.getElementById("dashboard").style.display = "none";
+                document.getElementById("usuario").value = "";
+                document.getElementById("contrasena").value = "";
+                localStorage.removeItem("portalUsuario");
+            }
+        }
+
+        // Verificar si ya hay sesión activa
+        window.addEventListener("load", () => {
+            // Remover overlay de entrada después de su animación
+            const overlay = document.getElementById("overlayEntrada");
+            if (overlay) {
+                setTimeout(() => overlay.remove(), 1500);
+            }
+
+            const usuarioGuardado = localStorage.getItem("portalUsuario");
+            if (usuarioGuardado) {
+                document.getElementById("usuario").value = usuarioGuardado;
+                document.getElementById("contrasena").value = "12345";
+                handleLogin(new Event("submit"));
+            }
+        });
+    </script>
+</body>
+</html>
