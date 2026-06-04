@@ -10,19 +10,34 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-api_key = os.getenv("GEMINI_API_KEY")
+api_key = os.getenv("GEMINI_API_KEY", "").strip()
 
 # System prompt: el asistente se comporta como IA de PharmaTech
 SYSTEM_PROMPT = """Eres el asistente virtual de PharmaTech NeuroScience Division, una empresa farmacéutica de investigación neurológica avanzada.
 
-Tu función es:
-- Responder preguntas sobre los productos neurofarmacológicos del catálogo: Neurovexis-9, Synaptrol-XR y Cerebrix Delta.
-- Informar sobre los servicios: Neurocirugía Avanzada, Sinapsis Artificial y Bioingeniería Cognitiva.
-- Ayudar con preguntas generales sobre la empresa, pagos (SINPE, tarjeta, transferencia) y soporte.
-- Responder siempre de forma profesional, concisa y con un tono científico pero accesible.
-- Si alguien pregunta algo fuera del contexto de PharmaTech, redirige amablemente la conversación.
+CATÁLOGO DE PRODUCTOS:
+1. Neurovexis-9 (₡15,000) - Modulador sináptico experimental para estabilizar impulsos neuronales
+2. Synaptrol-XR (₡22,500) - Compuesto neuroadaptativo para regeneración neuronal artificial
+3. Cerebrix Delta (₡18,000) - Neuroestimulante de precisión para interfaces neuronales avanzadas
 
-Recuerda: eres parte de un proyecto académico / demo, así que puedes responder preguntas generales de manera educativa también."""
+SERVICIOS:
+- Neurocirugía Avanzada: Sistemas de apoyo neuroquímico para procedimientos cerebrales complejos
+- Sinapsis Artificial: Investigación de conexiones neuronales experimentales
+- Bioingeniería Cognitiva: Simulación neuronal y estabilización neuroeléctrica
+
+MÉTODOS DE PAGO:
+- SINPE Móvil: 8888-8888
+- Transferencia Bancaria: Banco Nacional, Cuenta 123456789
+- Tarjeta de crédito
+
+Tu función es:
+- Responder preguntas específicas sobre productos: características, precios, usos
+- Explicar los servicios disponibles
+- Ayudar con información de pagos y envíos
+- Responder de forma profesional, concisa y científica pero accesible
+- Si preguntan algo fuera de PharmaTech, redirige amablemente pero mantén el contexto
+
+Proporciona respuestas claras, útiles y siempre en contexto con la empresa."""
 
 
 @app.route('/')
@@ -37,9 +52,20 @@ def static_files(path):
 
 @app.route('/preguntar', methods=['POST'])
 def preguntar():
-    data = request.get_json(force=True, silent=True)
-
+    # Intenta múltiples formas de obtener los datos
+    try:
+        data = request.get_json()
+    except:
+        data = None
+    
     if not data:
+        try:
+            import json
+            data = json.loads(request.data.decode('utf-8'))
+        except:
+            data = None
+    
+    if not data or 'pregunta' not in data:
         return jsonify({'respuesta': '❌ No se recibió ningún dato en la solicitud.'}), 400
 
     pregunta = data.get('pregunta', '').strip()
@@ -60,26 +86,32 @@ def preguntar():
             contents=pregunta,
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_PROMPT,
-                temperature=0.7,
-                max_output_tokens=1024,
+                temperature=0.5,
+                top_p=0.85,
+                max_output_tokens=400,
             )
         )
 
-        respuesta_texto = response.text
-        return jsonify({'respuesta': respuesta_texto})
+        respuesta_texto = response.text.strip()
+        if not respuesta_texto:
+            respuesta_texto = "Disculpa, no pude generar una respuesta. Intenta reformular tu pregunta."
+        return jsonify({'respuesta': respuesta_texto}), 200
 
     except Exception as e:
         error_str = str(e)
         print(f"[PharmaTech IA Error] {error_str}")
 
-        if 'API_KEY_INVALID' in error_str or 'API key not valid' in error_str:
+        # Mensajes de error más específicos
+        if 'INVALID_ARGUMENT' in error_str or 'API key not valid' in error_str.lower():
             return jsonify({'respuesta': '❌ La API Key de Gemini no es válida. Verifica el archivo .env'})
-        elif 'quota' in error_str.lower():
+        elif 'quota' in error_str.lower() or 'rate limit' in error_str.lower():
             return jsonify({'respuesta': '⚠️ Se alcanzó el límite de cuota de la API. Intenta en unos minutos.'})
-        elif 'network' in error_str.lower() or 'connection' in error_str.lower():
-            return jsonify({'respuesta': '🌐 Error de conexión con el servidor de IA. Verifica tu internet.'})
+        elif 'connection' in error_str.lower() or 'timeout' in error_str.lower():
+            return jsonify({'respuesta': '🌐 Error de conexión. Verifica tu internet.'})
         else:
-            return jsonify({'respuesta': f'❌ Error inesperado: {error_str}'})
+            # Mostrar el error para debug
+            print(f"Error completo: {error_str}")
+            return jsonify({'respuesta': f'❌ Error: {error_str[:200]}'})
 
 
 if __name__ == '__main__':

@@ -276,22 +276,34 @@ async function sendMessage() {
     const input = document.getElementById('chatInput');
     const text = input.value.trim();
     if (!text) return;
+    
     addUserMessage(text);
     input.value = '';
+    input.focus();
+    
     const thinking = addBotMessage(
-        '<span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span> Procesando...'
+        '<span class="thinking-dots"><span>.</span><span>.</span><span>.</span></span> Pensando...'
     );
+    
     try {
         const res = await fetch('/preguntar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ pregunta: text })
         });
+        
+        if (!res.ok) {
+            const error = await res.json();
+            thinking.innerHTML = error.respuesta || 'Error en la solicitud.';
+            return;
+        }
+        
         const data = await res.json();
-        thinking.innerHTML = data.respuesta;
+        thinking.innerHTML = data.respuesta || 'No se pudo procesar la respuesta.';
+        
     } catch (error) {
-        console.error("Error de conexión con el núcleo de IA:", error);
-        thinking.innerHTML = "No se pudo conectar con el servidor. Asegúrate de que el backend esté corriendo.";
+        console.error("Error de conexión:", error);
+        thinking.innerHTML = "❌ No se pudo conectar con el servidor. Asegúrate de que el backend esté corriendo en http://localhost:5000";
     }
 }
 // Enter key to send message

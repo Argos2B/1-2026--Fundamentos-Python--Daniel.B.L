@@ -1,0 +1,24 @@
+{
+  "name": "1-2026--fundamentos-python--daniel.b.l",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Argos2B/1-2026--Fundamentos-Python--Daniel.B.L.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Argos2B/1-2026--Fundamentos-Python--Daniel.B.L/issues"
+  },
+  "homepage": "https://github.com/Argos2B/1-2026--Fundamentos-Python--Daniel.B.L#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
