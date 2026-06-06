@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Articulos Medicos 2026 | PharmaTech NeuroScience</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Georgia,Garamond,serif}
+body{background:#000;color:#f5f5f5;min-height:100vh;overflow-x:hidden}
+.video-fondo{position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;background:#000}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:-1;pointer-events:none}
+@keyframes pageReveal{0%{opacity:0;transform:translateY(28px) scale(.98)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes optionReveal{0%{opacity:0;transform:translateY(18px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes cardReveal{0%{opacity:0;transform:translateY(26px) rotateX(8deg)}100%{opacity:1;transform:translateY(0) rotateX(0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 rgba(212,175,55,0)}50%{box-shadow:0 0 24px rgba(212,175,55,.28)}}
+@keyframes modalReveal{0%{opacity:0;transform:translateY(34px) scale(.96)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes floatingArea{0%,100%{translate:0 0}50%{translate:0 -8px}}
+@keyframes floatingSoft{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.navbar{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 42px;background:rgba(9,9,11,.74);border-bottom:1px solid rgba(212,175,55,.25);position:sticky;top:0;z-index:20;backdrop-filter:blur(12px);animation:pageReveal .7s ease both}
+.logo{font-size:1.55rem;font-weight:700;color:#d4af37;text-shadow:0 0 18px rgba(212,175,55,.45);animation:glowPulse 3.5s ease-in-out infinite}
+.nav-links{display:flex;gap:24px;list-style:none;flex-wrap:wrap}
+.nav-links a{color:#d4d4d8;text-decoration:none;display:inline-block;transition:color .25s ease,transform .25s ease,text-shadow .25s ease}
+.nav-links a:hover{color:#d4af37;transform:translateY(-2px);text-shadow:0 0 14px rgba(212,175,55,.45)}
+.page{max-width:1380px;margin:0 auto;padding:46px 24px 70px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:end;margin-bottom:28px;animation:pageReveal .8s ease .1s both}
+.hero h1{font-size:clamp(2.2rem,5vw,4.9rem);line-height:1.05;text-shadow:0 0 28px rgba(168,85,247,.45)}
+.hero p{color:#d4d4d8;line-height:1.7;font-size:1rem;max-width:620px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{border:1px solid rgba(212,175,55,.35);background:rgba(26,24,21,.76);padding:16px;border-radius:8px;animation:optionReveal .6s ease both,floatingArea 5.5s ease-in-out infinite;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.stat:nth-child(2){animation-delay:.08s}.stat:nth-child(3){animation-delay:.16s}
+.stat:hover{transform:translateY(-4px) scale(1.02);border-color:#d4af37;box-shadow:0 0 22px rgba(212,175,55,.18)}
+.stat strong{display:block;color:#d4af37;font-size:1.7rem}
+.toolbar{display:grid;grid-template-columns:1.5fr repeat(3,minmax(150px,.45fr));gap:12px;margin:24px 0;align-items:center;animation:pageReveal .75s ease .2s both}
+.toolbar input,.toolbar select{width:100%;border:1px solid rgba(212,175,55,.35);background:rgba(26,24,21,.82);color:#f5f5f5;padding:13px 14px;border-radius:8px;outline:none;animation:optionReveal .55s ease both,floatingSoft 4.8s ease-in-out infinite;transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,background .22s ease}
+.toolbar input:nth-child(2),.toolbar select:nth-child(2){animation-delay:.05s}.toolbar select:nth-child(3){animation-delay:.1s}.toolbar select:nth-child(4){animation-delay:.15s}
+.toolbar input:focus,.toolbar select:focus,.toolbar input:hover,.toolbar select:hover{border-color:#d4af37;box-shadow:0 0 18px rgba(212,175,55,.24);transform:translateY(-2px);background:rgba(26,24,21,.94)}
+.toolbar.animating input,.toolbar.animating select{animation:glowPulse .75s ease}
+.results-line{color:#d4d4d8;margin:10px 0 18px;animation:optionReveal .45s ease both}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:18px}
+.article-card{background:linear-gradient(135deg,rgba(26,24,21,.88),rgba(42,37,31,.86));border:1px solid rgba(212,175,55,.28);border-radius:8px;padding:18px;min-height:250px;display:flex;flex-direction:column;gap:10px;animation:cardReveal .58s ease both,floatingSoft 6s ease-in-out infinite;animation-delay:var(--delay,0s),calc(var(--delay,0s) + .7s);transform-origin:center top;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.article-card:hover{border-color:#d4af37;box-shadow:0 12px 28px rgba(0,0,0,.32),0 0 22px rgba(212,175,55,.2);transform:translateY(-6px)}
+.meta{display:flex;justify-content:space-between;gap:10px;color:#c7b26b;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.article-card h2{font-size:1.08rem;line-height:1.35;color:#fff}
+.article-card p{color:#c9c9d1;line-height:1.55;font-size:.94rem}
+.read-btn{width:100%;margin-top:4px;background:linear-gradient(135deg,#2a2520,#3d3530);color:#d4af37;border:1px solid #d4af37;border-radius:8px;padding:10px 12px;cursor:pointer;font-weight:700;transition:transform .2s ease,box-shadow .2s ease,color .2s ease}
+.read-btn:hover{box-shadow:0 0 18px rgba(212,175,55,.28);color:#f0e68c;transform:scale(1.02)}
+.read-btn:active,.pager button:active{transform:scale(.97)}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:auto}
+.chip{border:1px solid rgba(168,85,247,.38);color:#d8bfd8;background:rgba(168,85,247,.08);padding:5px 8px;border-radius:999px;font-size:.76rem;animation:optionReveal .45s ease both;transition:transform .2s ease,box-shadow .2s ease}
+.chip:hover{transform:translateY(-2px);box-shadow:0 0 12px rgba(168,85,247,.24)}
+.pager{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:26px;animation:pageReveal .6s ease both,floatingSoft 5.2s ease-in-out infinite}
+.pager button,.btn{background:linear-gradient(135deg,#2a2520,#3d3530);color:#d4af37;border:1px solid #d4af37;border-radius:8px;padding:11px 15px;cursor:pointer;font-weight:700;transition:transform .2s ease,box-shadow .2s ease,color .2s ease}
+.pager button:hover,.btn:hover{box-shadow:0 0 18px rgba(212,175,55,.28);color:#f0e68c;transform:translateY(-2px)}
+.pager button:disabled{opacity:.45;cursor:not-allowed}
+.notice{margin-top:26px;color:#a1a1aa;font-size:.88rem;line-height:1.5;text-align:center}
+.article-modal{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px;z-index:80}
+.article-modal.active{display:flex}
+.article-modal.active .article-reader{animation:modalReveal .42s ease both}
+.article-reader{width:min(920px,100%);max-height:88vh;overflow:auto;background:linear-gradient(135deg,rgba(20,18,16,.96),rgba(34,29,24,.94));border:1px solid rgba(212,175,55,.55);border-radius:8px;padding:26px;box-shadow:0 0 40px rgba(0,0,0,.55)}
+.reader-top{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;margin-bottom:16px}
+.reader-top h2{font-size:clamp(1.35rem,3vw,2.25rem);line-height:1.2;color:#fff}
+.close-reader{background:#3d3530;color:#d4af37;border:1px solid #d4af37;border-radius:50%;width:38px;height:38px;cursor:pointer;font-size:1.2rem;flex:0 0 auto;transition:transform .2s ease,box-shadow .2s ease}
+.close-reader:hover{transform:rotate(90deg) scale(1.05);box-shadow:0 0 18px rgba(212,175,55,.28)}
+.reader-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0}
+.reader-box{border:1px solid rgba(212,175,55,.25);background:rgba(9,9,11,.36);border-radius:8px;padding:13px;animation:optionReveal .5s ease both,floatingSoft 4.8s ease-in-out infinite}
+.reader-box strong{display:block;color:#d4af37;margin-bottom:6px}
+.reader-body p{color:#d9d9df;line-height:1.75;margin-bottom:14px}
+.reader-list{color:#d9d9df;line-height:1.7;padding-left:18px;margin-bottom:16px}
+@media(max-width:700px){.reader-grid{grid-template-columns:1fr}.article-reader{padding:18px}.reader-top{gap:10px}}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.toolbar{grid-template-columns:1fr}.navbar{align-items:flex-start;flex-direction:column;padding:18px 22px}.stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<video class="video-fondo" autoplay muted loop playsinline preload="auto">
+    <source src="artuculos vieo fondo (2).mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+<nav class="navbar">
+    <div class="logo">PharmaTech.</div>
+    <ul class="nav-links">
+        <li><a href="index.html#inicio">Inicio</a></li>
+        <li><a href="index.html#servicios">Servicios</a></li>
+        <li><a href="index.html#catalogo">Catalogo</a></li>
+        <li><a href="portal_seguro.html">Portal Seguro</a></li>
+    </ul>
+</nav>
+<main class="page">
+    <section class="hero">
+        <div>
+            <h1>Articulos Medicos de Neurociencia 2026</h1>
+            <p>Biblioteca local con 600 fichas educativas sobre neurologia clinica, neurofarmacologia, neuroimagen, rehabilitacion, salud mental y bioingenieria neural.</p>
+        </div>
+        <div class="stats">
+            <div class="stat"><strong id="totalStat">600</strong><span>articulos</span></div>
+            <div class="stat"><strong>2026</strong><span>actualizacion</span></div>
+            <div class="stat"><strong>12</strong><span>areas</span></div>
+        </div>
+    </section>
+
+    <section class="toolbar" aria-label="Filtros de articulos">
+        <input id="searchInput" type="search" placeholder="Buscar por titulo, tema, resumen o etiqueta">
+        <select id="areaFilter"></select>
+        <select id="typeFilter"></select>
+        <select id="sortFilter">
+            <option value="new">Mas recientes</option>
+            <option value="title">Titulo A-Z</option>
+            <option value="evidence">Mayor evidencia</option>
+        </select>
+    </section>
+
+    <div class="results-line" id="resultsLine"></div>
+    <section class="grid" id="articlesGrid"></section>
+    <div class="pager">
+        <button id="prevBtn" onclick="changePage(-1)">Anterior</button>
+        <span id="pageInfo"></span>
+        <button id="nextBtn" onclick="changePage(1)">Siguiente</button>
+    </div>
+    <p class="notice">Contenido educativo local para demostracion web. No reemplaza lectura clinica revisada por pares ni criterio medico profesional.</p>
+</main>
+
+<div class="article-modal" id="articleModal" onclick="closeArticle(event)">
+    <article class="article-reader" id="articleReader" onclick="event.stopPropagation()"></article>
+</div>
+
+<script>
+const areas = [
+    "Neurofarmacologia","Neurologia vascular","Neuroimagen","Neurodegeneracion",
+    "Epilepsia","Neuroinmunologia","Neurocirugia","Psiquiatria biologica",
+    "Neurorehabilitacion","Dolor neurologico","Neurodesarrollo","Bioingenieria neural"
+];
+const types = ["Prevencion y habitos","Diagnostico clinico","Tratamiento medico","Rehabilitacion","Seguimiento 2026","Caso educativo","Tecnologia neural","Farmacovigilancia"];
+const tags = ["2026","neurociencia","clinica","IA medica","Costa Rica","farmacovigilancia","precision","rehabilitacion"];
+const topics = [
+    {name:"ictus isquemico", area:"Neurologia vascular", natural:"actividad fisica supervisada, control de presion arterial, dieta cardioprotectora y abandono del tabaco", scientific:"trombolisis intravenosa en ventana indicada, trombectomia mecanica, antiagregacion, estatinas y control etiologico", concept:"restaurar flujo cerebral y prevenir recurrencias"},
+    {name:"hemorragia intracerebral", area:"Neurologia vascular", natural:"control domiciliario de presion, reduccion de alcohol, sueno regular y prevencion de caidas", scientific:"neuroimagen urgente, reversar anticoagulantes, manejo intensivo de presion y neurocirugia seleccionada", concept:"limitar expansion del hematoma y edema"},
+    {name:"aneurisma cerebral", area:"Neurocirugia", natural:"no fumar, control tensional, evitar estimulantes y vigilar cefalea explosiva", scientific:"angiografia, clipaje microquirurgico, embolizacion endovascular y seguimiento por imagen", concept:"prevenir ruptura y sangrado subaracnoideo"},
+    {name:"migraña cronica", area:"Dolor neurologico", natural:"higiene del sueno, hidratacion, ejercicio aerobico gradual, diario de desencadenantes y manejo del estres", scientific:"triptanes, gepantes, anticuerpos anti-CGRP, toxina botulinica y profilaxis individualizada", concept:"reducir dias de cefalea y sensibilizacion trigeminal"},
+    {name:"cefalea en racimos", area:"Dolor neurologico", natural:"evitar alcohol en periodos activos, rutinas de sueno y registro horario de crisis", scientific:"oxigeno al 100%, triptan subcutaneo, verapamilo preventivo y neuromodulacion en refractarios", concept:"bloquear crisis autonomico-trigeminales"},
+    {name:"epilepsia focal", area:"Epilepsia", natural:"sueno estable, evitar alcohol, adherencia estricta y plan de seguridad ante crisis", scientific:"lamotrigina, levetiracetam u otros antiseizure, video-EEG, RM y cirugia si es farmacorresistente", concept:"localizar red epileptogena y controlar descargas"},
+    {name:"epilepsia generalizada", area:"Epilepsia", natural:"rutina de descanso, evitar luces desencadenantes y educacion familiar", scientific:"valproato cuando procede, levetiracetam, lamotrigina, EEG y ajuste por edad, embarazo y comorbilidad", concept:"estabilizar redes talamocorticales"},
+    {name:"estatus epileptico", area:"Epilepsia", natural:"reconocer crisis prolongada, posicion lateral y activar emergencias sin introducir objetos en la boca", scientific:"benzodiacepinas, antiseizure de segunda linea, UCI, EEG continuo y busqueda de causa metabolica o estructural", concept:"detener actividad epileptica sostenida"},
+    {name:"Parkinson temprano", area:"Neurodegeneracion", natural:"ejercicio de fuerza, marcha ritmica, fisioterapia, sueño regular y entrenamiento de equilibrio", scientific:"levodopa, agonistas dopaminergicos seleccionados, inhibidores MAO-B y evaluacion motora periodica", concept:"compensar deficit dopaminergico nigroestriatal"},
+    {name:"Parkinson avanzado", area:"Neurodegeneracion", natural:"prevencion de caidas, terapia ocupacional, soporte del cuidador y nutricion para disfagia", scientific:"ajuste de levodopa, bombas de infusion, apomorfina, estimulacion cerebral profunda y manejo de discinesias", concept:"suavizar fluctuaciones motoras"},
+    {name:"temblor esencial", area:"Neurofarmacologia", natural:"reducir cafeina, tecnicas de estabilidad, utensilios adaptados y control de ansiedad", scientific:"propranolol, primidona, toxina botulinica, ultrasonido focalizado o estimulacion cerebral profunda", concept:"regular circuitos cerebelo-talamicos"},
+    {name:"distonia cervical", area:"Neurofarmacologia", natural:"estiramientos guiados, ergonomia cervical y estrategias sensoriales de alivio", scientific:"toxina botulinica, anticolinergicos seleccionados, benzodiacepinas y estimulacion cerebral profunda en casos graves", concept:"reducir contraccion muscular involuntaria"},
+    {name:"Alzheimer inicial", area:"Neurodegeneracion", natural:"ejercicio, dieta mediterranea, audicion corregida, actividad cognitiva y control vascular", scientific:"biomarcadores, inhibidores de colinesterasa, memantina segun etapa y terapias antiamiloide seleccionadas con vigilancia", concept:"ralentizar deterioro y confirmar etiologia"},
+    {name:"deterioro cognitivo leve", area:"Neurodegeneracion", natural:"actividad fisica, sueño suficiente, tratamiento de apnea, vida social y entrenamiento cognitivo", scientific:"evaluacion neuropsicologica, RM, biomarcadores, manejo de depresion y revision de farmacos anticolinergicos", concept:"distinguir envejecimiento, depresion y neurodegeneracion"},
+    {name:"demencia frontotemporal", area:"Psiquiatria biologica", natural:"rutinas estructuradas, seguridad financiera, apoyo familiar y reduccion de estimulos conflictivos", scientific:"evaluacion conductual, genetica si procede, ISRS para sintomas, terapia del lenguaje y plan legal temprano", concept:"manejar conducta y lenguaje por redes frontotemporales"},
+    {name:"ELA", area:"Neurodegeneracion", natural:"fisioterapia respiratoria, nutricion, comunicacion asistida y conservacion de energia", scientific:"riluzol, edaravona en seleccionados, ventilacion no invasiva, gastrostomia y clinica multidisciplinaria", concept:"proteger funcion respiratoria y motora"},
+    {name:"esclerosis multiple remitente", area:"Neuroinmunologia", natural:"ejercicio moderado, manejo de fatiga, vitamina D si hay deficit y evitar tabaco", scientific:"terapias modificadoras de enfermedad, RM seriada, corticoides en brotes y escalamiento segun actividad", concept:"reducir inflamacion desmielinizante"},
+    {name:"neuromielitis optica", area:"Neuroinmunologia", natural:"rehabilitacion visual, prevencion de infecciones y apoyo para movilidad", scientific:"anticuerpos AQP4/MOG, inmunoterapia preventiva, plasmaferesis en brotes y vigilancia especializada", concept:"evitar brotes medulares y opticos severos"},
+    {name:"miastenia gravis", area:"Neuroinmunologia", natural:"descanso programado, evitar calor excesivo y revisar medicamentos que empeoran debilidad", scientific:"piridostigmina, corticoides, inmunosupresores, inmunoglobulina/plasmaferesis y timectomia cuando procede", concept:"mejorar transmision neuromuscular"},
+    {name:"neuropatia diabetica", area:"Dolor neurologico", natural:"control glucemico, caminatas seguras, cuidado de pies y fuerza progresiva", scientific:"duloxetina, pregabalina, gabapentina, control metabolico intensivo y evaluacion de dolor neuropatico", concept:"proteger nervios perifericos y disminuir dolor"},
+    {name:"dolor neuropatico posherpetico", area:"Dolor neurologico", natural:"proteccion de piel, sueño reparador, compresas suaves y actividad gradual", scientific:"gabapentinoides, antidepresivos duales, lidocaina topica, capsaicina y vacunacion preventiva", concept:"calmar hiperexcitabilidad sensitiva"},
+    {name:"neuralgia del trigemino", area:"Dolor neurologico", natural:"identificar gatillos tactiles, evitar frio directo y adaptar higiene oral", scientific:"carbamazepina, oxcarbazepina, RM de fosa posterior, radiofrecuencia o descompresion microvascular", concept:"controlar descargas paroxisticas del trigemino"},
+    {name:"lesion medular", area:"Neurorehabilitacion", natural:"fortalecimiento seguro, cuidado de piel, manejo intestinal y entrenamiento funcional", scientific:"estabilizacion quirurgica, rehabilitacion intensiva, manejo de espasticidad, dispositivos asistivos y estimulacion epidural experimental", concept:"maximizar autonomia tras daño espinal"},
+    {name:"trauma craneoencefalico", area:"Neurorehabilitacion", natural:"reposo inicial, retorno gradual a actividad, higiene del sueño y evitar alcohol", scientific:"TC/RM, control de presion intracraneal, neurorehabilitacion, tratamiento de convulsiones y seguimiento cognitivo", concept:"prevenir lesion secundaria y recuperar funcion"},
+    {name:"conmocion deportiva", area:"Neurorehabilitacion", natural:"retiro del juego, descanso relativo, retorno escalonado y educacion del atleta", scientific:"evaluacion vestibular, pruebas neurocognitivas, manejo de cefalea y criterios medicos de regreso", concept:"evitar segundo impacto y sintomas persistentes"},
+    {name:"tumor cerebral glioma", area:"Neurocirugia", natural:"apoyo nutricional, ejercicio tolerado, sueño, manejo emocional y red familiar", scientific:"RM con contraste, reseccion maxima segura, radioterapia, temozolomida y perfil molecular IDH/MGMT", concept:"integrar histologia, genetica y control tumoral"},
+    {name:"meningioma", area:"Neurocirugia", natural:"observacion de sintomas, control visual y manejo de cefalea sin automedicacion excesiva", scientific:"RM seriada, cirugia si crece o comprime, radiocirugia y clasificacion histopatologica", concept:"decidir entre vigilancia y tratamiento local"},
+    {name:"hidrocefalia normotensiva", area:"Neurocirugia", natural:"prevencion de caidas, entrenamiento de marcha y soporte en actividades diarias", scientific:"prueba de drenaje lumbar, neuroimagen, valvula ventriculoperitoneal y seguimiento de marcha-cognicion", concept:"revertir alteracion de LCR tratable"},
+    {name:"trastorno del sueño REM", area:"Neurodegeneracion", natural:"seguridad en dormitorio, retirar objetos duros y regular sueño", scientific:"polisomnografia, melatonina, clonazepam seleccionado y vigilancia de sinucleinopatias", concept:"detectar conducta onirica motora y riesgo neurodegenerativo"},
+    {name:"insomnio cronico", area:"Psiquiatria biologica", natural:"terapia cognitivo-conductual para insomnio, luz matutina y restriccion de pantallas", scientific:"descartar apnea, piernas inquietas, depresion; uso prudente de hipnoticos y seguimiento", concept:"reordenar ritmo sueño-vigilia"},
+    {name:"apnea obstructiva del sueño", area:"Psiquiatria biologica", natural:"bajar peso si procede, dormir lateral, evitar alcohol nocturno y ejercicio", scientific:"polisomnografia, CPAP, dispositivos mandibulares y manejo de riesgo vascular", concept:"reducir hipoxia intermitente cerebral"},
+    {name:"depresion resistente", area:"Psiquiatria biologica", natural:"rutina de actividad, terapia psicologica, apoyo social y sueño estable", scientific:"optimizar antidepresivos, litio/antipsicotico aumentador, ketamina/esketamina, ECT o TMS segun perfil", concept:"modular redes afectivas frontolimbicas"},
+    {name:"ansiedad generalizada", area:"Psiquiatria biologica", natural:"respiracion diafragmatica, ejercicio regular, mindfulness y reduccion de cafeina", scientific:"TCC, ISRS/IRSN, buspirona, evaluacion tiroidea y seguimiento de respuesta", concept:"bajar hiperalerta amigdalar y autonómica"},
+    {name:"TDAH adulto", area:"Neurodesarrollo", natural:"agenda visual, ejercicio, higiene del sueño y estrategias de foco por bloques", scientific:"metilfenidato, atomoxetina, lisdexanfetamina, psicoeducacion y evaluacion de comorbilidades", concept:"mejorar control ejecutivo y atencion sostenida"},
+    {name:"autismo y sensorialidad", area:"Neurodesarrollo", natural:"rutinas predecibles, descansos sensoriales y comunicacion clara", scientific:"evaluacion interdisciplinaria, terapia ocupacional, apoyo conductual y manejo farmacologico solo de sintomas asociados", concept:"adaptar ambiente a procesamiento sensorial"},
+    {name:"paralisis cerebral", area:"Neurodesarrollo", natural:"estiramientos, juego motor, nutricion y adaptacion escolar", scientific:"fisioterapia, toxina botulinica, baclofeno, ortesis, cirugia ortopedica y tecnologia asistiva", concept:"potenciar funcion motora en desarrollo"},
+    {name:"atrofia muscular espinal", area:"Neurodesarrollo", natural:"fisioterapia respiratoria, nutricion y prevencion de infecciones", scientific:"nusinersen, risdiplam, terapia genica seleccionada y seguimiento neuromuscular", concept:"modificar curso genetico neuromuscular"},
+    {name:"Duchenne", area:"Neurodesarrollo", natural:"ejercicio suave, estiramientos, soporte escolar y prevencion respiratoria", scientific:"corticoides, terapias exon-skipping seleccionadas, vigilancia cardiaca y respiratoria", concept:"preservar musculo y funcion cardiopulmonar"},
+    {name:"sindrome de Guillain-Barre", area:"Neuroinmunologia", natural:"rehabilitacion gradual, cuidado respiratorio y apoyo emocional", scientific:"inmunoglobulina o plasmaferesis, monitoreo autonomico, UCI si hay debilidad respiratoria", concept:"tratar neuropatia inflamatoria aguda"},
+    {name:"CIDP", area:"Neuroinmunologia", natural:"ejercicio dosificado, prevencion de caidas y conservacion de energia", scientific:"inmunoglobulina, corticoides, plasmaferesis y estudios de conduccion nerviosa", concept:"controlar desmielinizacion periferica cronica"},
+    {name:"encefalitis autoinmune", area:"Neuroinmunologia", natural:"apoyo cognitivo, reduccion de estimulos y rehabilitacion gradual", scientific:"anticuerpos neuronales, RM/EEG/LCR, corticoides, inmunoglobulina, rituximab y manejo de crisis", concept:"revertir inflamacion neuronal inmunomediada"},
+    {name:"meningitis bacteriana", area:"Neuroinmunologia", natural:"vacunacion, higiene, consulta temprana por fiebre y rigidez nucal", scientific:"antibioticos urgentes, dexametasona seleccionada, hemocultivos, LCR y UCI si precisa", concept:"evitar daño neurologico infeccioso"},
+    {name:"long COVID neurologico", area:"Neurorehabilitacion", natural:"pacing, sueño, hidratacion, ejercicio muy gradual y manejo de niebla mental", scientific:"descartar disautonomia, cefalea, neuropatia; rehabilitacion cognitiva y tratamiento sintomatico", concept:"ordenar sintomas neurologicos postinfecciosos"},
+    {name:"disautonomia POTS", area:"Neurofarmacologia", natural:"liquidos, sal si es apropiado, medias compresivas y ejercicio recostado progresivo", scientific:"prueba de mesa basculante, fludrocortisona, midodrina, betabloqueo seleccionado y manejo etiologico", concept:"estabilizar frecuencia cardiaca ortostatica"},
+    {name:"vertigo vestibular", area:"Neurorehabilitacion", natural:"maniobras vestibulares indicadas, hidratacion y evitar reposo prolongado", scientific:"Dix-Hallpike, rehabilitacion vestibular, antiemeticos breves y descartar ictus posterior", concept:"diferenciar vestibular periferico de central"},
+    {name:"esclerosis lateral primaria", area:"Neurodegeneracion", natural:"estiramientos, terapia de marcha y prevencion de espasticidad", scientific:"baclofeno/tizanidina, neurofisiologia, RM y seguimiento motor longitudinal", concept:"manejar sindrome piramidal progresivo"},
+    {name:"ataxia cerebelosa", area:"Neurorehabilitacion", natural:"entrenamiento de equilibrio, bastones, prevencion de caidas y terapia ocupacional", scientific:"RM, genetica, tratar causas reversibles, rehabilitacion coordinativa y manejo sintomatico", concept:"compensar dismetria y marcha inestable"},
+    {name:"Huntington", area:"Neurodegeneracion", natural:"rutinas, nutricion hipercalorica si precisa, apoyo familiar y seguridad", scientific:"test genetico con consejeria, tetrabenazina/deutetrabenazina, antipsicoticos y manejo psiquiatrico", concept:"tratar corea y sintomas conductuales"},
+    {name:"sindrome de Tourette", area:"Neurodesarrollo", natural:"psicoeducacion, reduccion de estigma, sueño y manejo escolar", scientific:"CBIT, alfa-agonistas, antipsicoticos seleccionados y evaluacion de TDAH/TOC", concept:"modular tics y comorbilidades"},
+    {name:"TOC neurobiologico", area:"Psiquiatria biologica", natural:"exposicion con prevencion de respuesta guiada y rutinas anti-ritual", scientific:"ISRS a dosis terapeuticas, clomipramina, TCC especializada y DBS en refractarios extremos", concept:"regular circuito orbitofrontal-estriatal"},
+    {name:"dolor lumbar radicular", area:"Dolor neurologico", natural:"movilidad guiada, fortalecimiento core, ergonomia y evitar reposo absoluto", scientific:"RM si signos de alarma, AINEs, bloqueos epidurales, gabapentinoides seleccionados y cirugia si deficit", concept:"tratar compresion o irritacion radicular"},
+    {name:"sindrome del tunel carpiano", area:"Neurofarmacologia", natural:"ferula nocturna, pausas ergonomicas y ejercicios de deslizamiento nervioso", scientific:"electromiografia, infiltracion corticoide y liberacion quirurgica si severo", concept:"descomprimir nervio mediano"},
+    {name:"neuropatia por quimioterapia", area:"Dolor neurologico", natural:"prevencion de caidas, ejercicio suave, cuidado de manos/pies y educacion sensitiva", scientific:"ajuste oncologico, duloxetina, evaluacion de dosis acumulada y rehabilitacion", concept:"mitigar toxicidad neurologica periferica"},
+    {name:"deterioro cognitivo vascular", area:"Neurologia vascular", natural:"control de presion, ejercicio, dieta, dejar tabaco y manejo de diabetes", scientific:"RM, antiagregacion si indicada, estatinas, control de fibrilacion y rehabilitacion cognitiva", concept:"reducir carga de lesiones vasculares cerebrales"},
+    {name:"fibrilacion auricular y cerebro", area:"Neurologia vascular", natural:"control de peso, sueño, alcohol bajo y actividad segura", scientific:"anticoagulacion segun riesgo, monitorizacion, cardiologia y prevencion secundaria de ictus", concept:"prevenir embolia cerebral"},
+    {name:"hipertension y cerebro", area:"Neurologia vascular", natural:"DASH, menos sal, ejercicio, sueño y automedicion de presion", scientific:"antihipertensivos, metas individualizadas, evaluacion renal/cardiaca y neuroimagen si sintomas", concept:"proteger pequeños vasos cerebrales"},
+    {name:"diabetes y cognicion", area:"Neurofarmacologia", natural:"alimentacion, actividad fisica, sueño y educacion glucemica", scientific:"control HbA1c individualizado, manejo de hipoglucemia, GLP-1/SGLT2 si procede y vigilancia vascular", concept:"evitar daño metabolico-neurovascular"},
+    {name:"deficit de vitamina B12", area:"Neurofarmacologia", natural:"nutricion adecuada y vigilancia en dietas restrictivas", scientific:"medicion B12/MMA, reposicion oral o intramuscular y busqueda de malabsorcion", concept:"prevenir mielopatia y neuropatia reversible"},
+    {name:"enfermedad de Wilson", area:"Neurofarmacologia", natural:"dieta baja en cobre supervisada y apoyo familiar", scientific:"ceruloplasmina, cobre urinario, quelantes, zinc y seguimiento hepato-neurologico", concept:"evitar acumulacion toxica de cobre"},
+    {name:"encefalopatia hepatica", area:"Psiquiatria biologica", natural:"evitar alcohol, adherencia nutricional y reconocimiento temprano de confusion", scientific:"lactulosa, rifaximina, buscar precipitantes, control de amonio y hepatologia", concept:"reducir neurotoxicidad metabolica"},
+    {name:"delirium hospitalario", area:"Psiquiatria biologica", natural:"orientacion diaria, lentes/audifonos, movilizacion y sueño nocturno", scientific:"buscar infeccion/farmacos/metabolico, protocolos CAM, antipsicoticos solo si riesgo y manejo causal", concept:"revertir confusion aguda multifactorial"},
+    {name:"disfagia neurologica", area:"Neurorehabilitacion", natural:"postura segura, textura adaptada y entrenamiento de deglucion", scientific:"videofluoroscopia, terapia fonoaudiologica, manejo de aspiracion y gastrostomia si precisa", concept:"evitar neumonia aspirativa"},
+    {name:"afasia postictus", area:"Neurorehabilitacion", natural:"practica diaria de comunicacion, paciencia familiar y ayudas visuales", scientific:"terapia del lenguaje intensiva, neuromodulacion investigacional y evaluacion neuropsicologica", concept:"reorganizar redes del lenguaje"},
+    {name:"espasticidad postictus", area:"Neurorehabilitacion", natural:"estiramientos, posicionamiento, ortesis y entrenamiento funcional", scientific:"toxina botulinica, baclofeno, fenol, bombas intratecales y terapia ocupacional", concept:"mejorar tono y rango articular"},
+    {name:"sindrome de piernas inquietas", area:"Neurofarmacologia", natural:"higiene del sueño, menos cafeina, ejercicio moderado y revisar hierro dietario", scientific:"ferritina, hierro si deficit, gabapentinoides, agonistas dopaminergicos con cautela", concept:"calmar urgencia motora nocturna"},
+    {name:"narcolepsia", area:"Psiquiatria biologica", natural:"siestas programadas, horarios regulares y seguridad al conducir", scientific:"polisomnografia/MSLT, modafinilo, oxibato, solriamfetol y manejo de cataplejia", concept:"regular somnolencia por sistemas hipocretina"},
+    {name:"trastorno bipolar y cerebro", area:"Psiquiatria biologica", natural:"sueño regular, evitar alcohol, rutina social y plan de señales tempranas", scientific:"litio, valproato, lamotrigina, antipsicoticos y psicoeducacion", concept:"estabilizar ritmos afectivos y excitabilidad"},
+    {name:"psicosis temprana", area:"Psiquiatria biologica", natural:"reduccion de cannabis, sueño, apoyo familiar y retorno gradual a estudio/trabajo", scientific:"antipsicoticos, intervencion temprana, terapia familiar, manejo metabolico y seguimiento de recaidas", concept:"tratar desconexion dopamina-redes cognitivas"},
+    {name:"neuroinflamacion y dieta", area:"Neuroinmunologia", natural:"patron mediterraneo, fibra, omega-3 alimentario y control de obesidad", scientific:"biomarcadores inflamatorios, tratar enfermedad base y evitar suplementos sin evidencia fuerte", concept:"modular inflamacion sistemica que afecta cerebro"},
+    {name:"microbiota y eje intestino-cerebro", area:"Bioingenieria neural", natural:"fibra, alimentos fermentados tolerados, sueño y manejo de estres", scientific:"investigacion de metabolitos, probioticos seleccionados, ensayos controlados y evaluacion gastrointestinal", concept:"conectar metabolismo intestinal con señalizacion neural"},
+    {name:"neurofeedback", area:"Bioingenieria neural", natural:"entrenamiento de atencion, respiracion y practica constante", scientific:"EEG cuantitativo, protocolos validados, comparacion con terapia estandar y medicion de resultados", concept:"aprender autorregulacion de patrones cerebrales"},
+    {name:"interfaces cerebro-computadora", area:"Bioingenieria neural", natural:"entrenamiento funcional, motivacion y metas realistas de comunicacion/movilidad", scientific:"BCI invasivas/no invasivas, decodificacion neural, seguridad de implantes y rehabilitacion asistida", concept:"traducir actividad cerebral en accion"},
+    {name:"estimulacion magnetica transcraneal", area:"Bioingenieria neural", natural:"rutina de sueño, actividad fisica y terapia psicologica complementaria", scientific:"TMS repetitiva, mapeo cortical, protocolos para depresion/migraña/investigacion motora", concept:"modular excitabilidad cortical no invasiva"},
+    {name:"estimulacion cerebral profunda", area:"Neurocirugia", natural:"educacion del paciente, seguimiento de sintomas y apoyo en adherencia", scientific:"implante DBS, programacion, dianas STN/GPi/VIM y vigilancia de efectos neuropsiquiatricos", concept:"regular circuitos profundos con electrodos"},
+    {name:"ultrasonido focalizado", area:"Neurocirugia", natural:"seleccion informada y objetivos funcionales claros", scientific:"termoablacion guiada por RM para temblor, control de seguridad y seguimiento neurologico", concept:"lesion terapeutica precisa sin craneotomia"},
+    {name:"biomarcadores de Alzheimer", area:"Neuroimagen", natural:"preparacion familiar, control vascular y plan de vida saludable mientras se estudia memoria", scientific:"PET amiloide/tau, LCR, p-tau plasmatico y criterios de seleccion terapeutica", concept:"confirmar biologia antes de tratar"},
+    {name:"RM funcional", area:"Neuroimagen", natural:"descanso previo, control de ansiedad y cooperacion en tareas", scientific:"mapeo de redes, conectividad funcional, planificacion quirurgica e investigacion cognitiva", concept:"ver redes cerebrales activas"},
+    {name:"PET cerebral", area:"Neuroimagen", natural:"preparacion metabolica, ayuno indicado y explicacion del procedimiento", scientific:"FDG-PET, PET amiloide/tau, interpretacion por patrones y correlacion clinica", concept:"medir metabolismo y depositos patologicos"},
+    {name:"EEG cuantitativo", area:"Neuroimagen", natural:"sueño adecuado, evitar cafeina excesiva y colaboracion durante registro", scientific:"analisis de ritmos, epilepsia, encefalopatia y biomarcadores investigacionales", concept:"leer actividad electrica cerebral"},
+    {name:"LCR y neurodiagnostico", area:"Neuroimagen", natural:"hidratacion, educacion sobre puncion y reposo posterior segun indicacion", scientific:"puncion lumbar, celulas/proteinas/glucosa, bandas oligoclonales y biomarcadores", concept:"analizar ventana bioquimica del sistema nervioso"}
+];
+const angles = [
+    {name:"Prevencion diaria", question:"que puede hacer el usuario en casa", lens:"habitos modificables y señales de alarma"},
+    {name:"Diagnostico diferencial", question:"como distinguirlo de problemas parecidos", lens:"historia clinica, examen neurologico y pruebas"},
+    {name:"Tratamiento inicial", question:"que opciones se consideran primero", lens:"beneficio, riesgo y ventana terapeutica"},
+    {name:"Tratamiento avanzado", question:"cuando escalar a terapias especializadas", lens:"refractariedad, tecnologia y equipos multidisciplinarios"},
+    {name:"Rehabilitacion", question:"como recuperar funcion o autonomia", lens:"plasticidad, entrenamiento y adaptaciones"},
+    {name:"Seguimiento 2026", question:"que se debe medir con el tiempo", lens:"biomarcadores, escalas y seguridad"},
+    {name:"Educacion familiar", question:"como apoyar sin reemplazar al profesional", lens:"comunicacion, adherencia y seguridad"},
+    {name:"Riesgos y alertas", question:"cuando buscar ayuda urgente", lens:"complicaciones y farmacovigilancia"}
+];
+let page = 1;
+const perPage = 24;
+
+function buildArticles() {
+    return topics.flatMap((topic, topicIndex) => angles.map((angle, angleIndex) => {
+        const n = topicIndex * angles.length + angleIndex + 1;
+        const area = topic.area;
+        const type = angle.name;
+        const month = String(((topicIndex + angleIndex) % 12) + 1).padStart(2, "0");
+        const day = String(((topicIndex * 3 + angleIndex) % 28) + 1).padStart(2, "0");
+        const evidence = 72 + ((topicIndex * 5 + angleIndex * 3) % 29);
+        const code = String(n).padStart(3, "0");
+        const natural = `Natural: ${topic.natural}. Esta parte se centra en acciones de vida diaria que pueden acompañar la atencion medica: movimiento seguro, descanso, nutricion, control de detonantes y apoyo familiar segun el caso.`;
+        const scientific = `Cientifico: ${topic.scientific}. Esta seccion resume opciones medicas, diagnosticas o tecnologicas que requieren valoracion profesional, seleccion de pacientes y vigilancia de efectos adversos.`;
+        const focus = `${angle.name}: ${angle.question} en ${topic.name}.`;
+        const explanation = `Concepto central: ${topic.concept}. El articulo explica ${angle.lens} sin mezclar recomendaciones caseras con tratamiento medico formal.`;
+        return {
+            id: n,
+            area,
+            type,
+            evidence,
+            date: `2026-${month}-${day}`,
+            population: topic.name,
+            method: angle.lens,
+            intervention: topic.scientific,
+            finding: topic.concept,
+            question: angle.question,
+            focus,
+            explanation,
+            natural,
+            scientific,
+            title: `Articulo ${code}: ${topic.name} - ${angle.name}`,
+            summary: `${focus} Natural y cientifico se separan para que el usuario vea habitos de apoyo por un lado y tratamiento profesional por otro.`,
+            details: [
+                `Concepto diferente: ${topic.name} se aborda desde ${angle.name.toLowerCase()}, no como ficha repetida sino como una pregunta clinica concreta: ${angle.question}.`,
+                natural,
+                scientific,
+                `Explicacion: ${topic.concept}; por eso se revisan ${angle.lens}. El usuario puede leer que los habitos ayudan como soporte, mientras que medicamentos, procedimientos o pruebas se reservan para profesionales.`,
+                `Detalle 2026: el contenido prioriza medicina basada en evaluacion, rehabilitacion cuando aplica, seguridad de tratamientos y seguimiento individualizado.`
+            ],
+            clinicalPoints: [
+                `Pregunta principal: ${angle.question}.`,
+                `Natural: ${topic.natural}.`,
+                `Cientifico: ${topic.scientific}.`,
+                `Concepto: ${topic.concept}.`
+            ],
+            tags: [tags[n % tags.length], tags[(n + 2) % tags.length], area.split(" ")[0], topic.name.split(" ")[0]]
+        };
+    })).slice(0, 600);
+}
+
+const articles = buildArticles();
+let filtered = [...articles];
+
+function fillFilters() {
+    areaFilter.innerHTML = `<option value="">Todas las areas</option>` + areas.map(area => `<option>${area}</option>`).join("");
+    typeFilter.innerHTML = `<option value="">Todos los tipos</option>` + types.map(type => `<option>${type}</option>`).join("");
+}
+
+function applyFilters() {
+    toolbar.classList.remove("animating");
+    void toolbar.offsetWidth;
+    toolbar.classList.add("animating");
+    const q = searchInput.value.trim().toLowerCase();
+    filtered = articles.filter(article => {
+        const text = `${article.title} ${article.summary} ${article.explanation} ${article.details.join(" ")} ${article.area} ${article.type} ${article.tags.join(" ")}`.toLowerCase();
+        return (!q || text.includes(q)) &&
+            (!areaFilter.value || article.area === areaFilter.value) &&
+            (!typeFilter.value || article.type === typeFilter.value);
+    });
+    if (sortFilter.value === "title") filtered.sort((a, b) => a.title.localeCompare(b.title));
+    if (sortFilter.value === "evidence") filtered.sort((a, b) => b.evidence - a.evidence);
+    if (sortFilter.value === "new") filtered.sort((a, b) => b.date.localeCompare(a.date));
+    page = 1;
+    render();
+}
+
+function render() {
+    const pages = Math.max(1, Math.ceil(filtered.length / perPage));
+    page = Math.min(page, pages);
+    const start = (page - 1) * perPage;
+    const items = filtered.slice(start, start + perPage);
+    articlesGrid.innerHTML = items.map((article, index) => `
+        <article class="article-card" style="--delay:${Math.min(index * 0.025, 0.45)}s">
+            <div class="meta"><span>${article.type}</span><span>${article.date}</span></div>
+            <h2>${article.title}</h2>
+            <p>${article.summary}</p>
+            <div class="meta"><span>${article.area}</span><span>Evidencia ${article.evidence}%</span></div>
+            <button class="read-btn" onclick="openArticle(${article.id})">Ver detalles</button>
+        </article>
+    `).join("");
+    resultsLine.textContent = `${filtered.length} articulos encontrados de 600 disponibles`;
+    totalStat.textContent = articles.length;
+    pageInfo.textContent = `Pagina ${page} de ${pages}`;
+    prevBtn.disabled = page === 1;
+    nextBtn.disabled = page === pages;
+    window.setTimeout(() => toolbar.classList.remove("animating"), 800);
+}
+
+function changePage(step) {
+    page += step;
+    render();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function openArticle(id) {
+    const article = articles.find(item => item.id === id);
+    if (!article) return;
+    articleReader.innerHTML = `
+        <div class="reader-top">
+            <div>
+                <div class="meta"><span>${article.type}</span><span>${article.date}</span></div>
+                <h2>${article.title}</h2>
+            </div>
+            <button class="close-reader" onclick="closeArticle()">x</button>
+        </div>
+        <div class="reader-grid">
+            <div class="reader-box"><strong>Area</strong>${article.area}</div>
+            <div class="reader-box"><strong>Enfoque</strong>${article.focus}</div>
+            <div class="reader-box"><strong>Poblacion</strong>${article.population}</div>
+            <div class="reader-box"><strong>Evidencia educativa</strong>${article.evidence}%</div>
+        </div>
+        <div class="reader-body">
+            <p>${article.explanation}</p>
+            ${article.details.map(paragraph => `<p>${paragraph}</p>`).join("")}
+            <strong style="display:block;color:#d4af37;margin-bottom:8px;">Puntos para revisar</strong>
+            <ul class="reader-list">${article.clinicalPoints.map(point => `<li>${point}</li>`).join("")}</ul>
+            <p><strong>Nota:</strong> esta lectura es informativa y debe validarse con fuentes medicas, guias clinicas y criterio profesional antes de usarla en decisiones de salud.</p>
+        </div>
+    `;
+    articleModal.classList.add("active");
+}
+
+function closeArticle(event) {
+    if (event && event.target !== articleModal) return;
+    articleModal.classList.remove("active");
+}
+
+document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeArticle();
+});
+
+fillFilters();
+["input","change"].forEach(evt => {
+    searchInput.addEventListener(evt, applyFilters);
+    areaFilter.addEventListener(evt, applyFilters);
+    typeFilter.addEventListener(evt, applyFilters);
+    sortFilter.addEventListener(evt, applyFilters);
+});
+applyFilters();
+const fondoVideo = document.querySelector(".video-fondo");
+fondoVideo.addEventListener("ended", () => {
+    fondoVideo.currentTime = 0;
+    fondoVideo.play();
+});
+</script>
+</body>
+</html>

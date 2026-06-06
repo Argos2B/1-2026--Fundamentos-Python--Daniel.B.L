@@ -238,6 +238,83 @@
             gap: 6px;
         }
 
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: flex;
+        }
+
+        .auth-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .auth-link {
+            background: transparent;
+            border: 0;
+            color: #D8BFD8;
+            cursor: pointer;
+            font-size: 0.72rem;
+            text-decoration: underline;
+        }
+
+        .success-message {
+            color: #86efac;
+            display: none;
+            font-size: 0.75rem;
+            text-align: center;
+            margin: 2px 0;
+        }
+
+        .auth-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 150;
+        }
+
+        .auth-modal.active {
+            display: flex;
+        }
+
+        .auth-panel {
+            width: min(420px, 100%);
+            background: linear-gradient(135deg, rgba(18, 14, 18, 0.98), rgba(42, 37, 31, 0.98));
+            border: 2px solid rgba(216, 191, 216, 0.75);
+            border-radius: 10px;
+            padding: 24px;
+            box-shadow: 0 0 35px rgba(168, 85, 247, 0.45), inset 0 0 18px rgba(216, 191, 216, 0.08);
+        }
+
+        .auth-panel-title {
+            color: #D8BFD8;
+            font-size: 1.15rem;
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            text-shadow: 0 0 12px rgba(216, 191, 216, 0.6);
+        }
+
+        .auth-panel .auth-form {
+            width: 100%;
+            flex-direction: column;
+            gap: 9px;
+        }
+
+        .auth-panel .form-group input {
+            height: 34px;
+        }
+
         .portal-logo {
             text-align: center;
             color: #D8BFD8;
@@ -790,7 +867,7 @@
                 </div>
             </div>
             
-            <form onsubmit="handleLogin(event)">
+            <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label for="usuario">Usuario</label>
                     <input 
@@ -814,6 +891,58 @@
                 <div class="error-message" id="errorMessage"></div>
 
                 <button type="submit" class="btn-login">Acceder</button>
+                <div class="auth-actions">
+                    <button type="button" class="auth-link" onclick="showAuthForm('register')">Crear cuenta</button>
+                    <button type="button" class="auth-link" onclick="showAuthForm('recovery')">Olvido clave</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+    <div class="auth-modal" id="authModal">
+        <div class="auth-panel">
+            <div class="auth-panel-title" id="authPanelTitle">Acceso</div>
+            <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registroUsuario">Nuevo usuario</label>
+                    <input type="text" id="registroUsuario" placeholder="Minimo 3 caracteres" required>
+                </div>
+                <div class="form-group">
+                    <label for="registroEmail">Email</label>
+                    <input type="email" id="registroEmail" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="registroClave">Clave</label>
+                    <input type="password" id="registroClave" placeholder="Minimo 5 caracteres" required>
+                </div>
+                <div class="error-message" id="registerError"></div>
+                <button type="submit" class="btn-login">Crear cuenta</button>
+                <div class="auth-actions">
+                    <button type="button" class="auth-link" onclick="showAuthForm('login')">Volver al acceso</button>
+                </div>
+            </form>
+
+            <form class="auth-form" id="recoveryForm" onsubmit="handleRecoveryRequest(event)">
+                <div class="form-group">
+                    <label for="recoveryEmail">Email registrado</label>
+                    <input type="email" id="recoveryEmail" placeholder="correo@ejemplo.com" required>
+                </div>
+                <div class="success-message" id="recoveryInfo"></div>
+                <button type="submit" class="btn-login">Generar codigo</button>
+                <div class="form-group">
+                    <label for="recoveryToken">Codigo</label>
+                    <input type="text" id="recoveryToken" placeholder="Codigo de recuperacion">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Clave nueva</label>
+                    <input type="password" id="newPassword" placeholder="Minimo 5 caracteres">
+                </div>
+                <div class="error-message" id="recoveryError"></div>
+                <button type="button" class="btn-login" onclick="handlePasswordReset()">Cambiar clave</button>
+                <div class="auth-actions">
+                    <button type="button" class="auth-link" onclick="showAuthForm('login')">Volver al acceso</button>
+                </div>
             </form>
         </div>
     </div>
@@ -825,7 +954,7 @@
             <div>
                 <div class="user-info">
                     <div class="user-name" id="displayUserName">Usuario</div>
-                    <div class="user-email">usuario@pharmatech.com</div>
+                    <div class="user-email" id="displayUserEmail">usuario@pharmatech.com</div>
                     <button class="btn-logout" onclick="handleLogout()">Cerrar Sesión</button>
                 </div>
             </div>
@@ -842,7 +971,7 @@
                     </div>
                     <div class="info-row">
                         <span class="info-label">Email:</span>
-                        <span class="info-value">usuario@pharmatech.com</span>
+                        <span class="info-value" id="profileEmail">usuario@pharmatech.com</span>
                     </div>
                     <div class="info-row">
                         <span class="info-label">Teléfono:</span>
@@ -859,7 +988,7 @@
             <div class="dashboard-card">
                 <div class="card-title">📋 Datos Personales</div>
                 <div class="card-content">
-                    <button class="btn-edit-data" onclick="toggleEditMode()">✏️ Editar Datos</button>
+                    <button class="btn-edit-data" onclick="toggleEditMode()"> Editar Datos</button>
                     <div id="viewMode">
                         <div class="info-row">
                             <span class="info-label">Número de Credencial:</span>
@@ -1128,47 +1257,156 @@
         // ========================
         // LOGIN / LOGOUT
         // ========================
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const usuario = document.getElementById("usuario").value;
-            const contrasena = document.getElementById("contrasena").value;
-            const errorMsg = document.getElementById("errorMessage");
+        function authHeaders() {
+            const token = localStorage.getItem("portalToken");
+            return token ? { "Authorization": "Bearer " + token } : {};
+        }
 
-            if (usuario === "admin" && contrasena === "12345") {
-                // Ocultar login y marco
-                document.getElementById("marcoPortal").style.display = "none";
-                // Mostrar dashboard con animaciones
-                const dashboard = document.getElementById("dashboard");
-                dashboard.style.display = "block";
-                document.getElementById("displayUserName").textContent = usuario.charAt(0).toUpperCase() + usuario.slice(1);
-                document.getElementById("profileName").textContent = usuario.charAt(0).toUpperCase() + usuario.slice(1);
-                errorMsg.style.display = "none";
-                localStorage.setItem("portalUsuario", usuario);
-                // Activar animaciones del dashboard
-                activarAnimacionesDashboard();
-                // Cargar datos personales guardados
-                cargarDatosPersonales();
-            } else {
-                errorMsg.textContent = "Usuario o contrasena incorrectos";
-                errorMsg.style.display = "block";
+        function showAuthForm(mode) {
+            const modal = document.getElementById("authModal");
+            const title = document.getElementById("authPanelTitle");
+            const isModalMode = mode === "register" || mode === "recovery";
+            modal.classList.toggle("active", isModalMode);
+            document.getElementById("loginForm").classList.add("active");
+            document.getElementById("registerForm").classList.toggle("active", mode === "register");
+            document.getElementById("recoveryForm").classList.toggle("active", mode === "recovery");
+            title.textContent = mode === "register" ? "Crear cuenta" : "Olvido clave";
+            ["errorMessage", "registerError", "recoveryError", "recoveryInfo"].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.style.display = "none";
+                    el.textContent = "";
+                }
+            });
+        }
+
+        function showAuthError(id, message) {
+            const el = document.getElementById(id);
+            el.textContent = message;
+            el.style.display = "block";
+        }
+
+        function mostrarDashboard(user) {
+            const modal = document.getElementById("authModal");
+            if (modal) modal.classList.remove("active");
+            document.getElementById("marcoPortal").style.display = "none";
+            const dashboard = document.getElementById("dashboard");
+            dashboard.style.display = "block";
+            const nombre = user.username.charAt(0).toUpperCase() + user.username.slice(1);
+            document.getElementById("displayUserName").textContent = nombre;
+            document.getElementById("profileName").textContent = nombre;
+            document.getElementById("displayUserEmail").textContent = user.email;
+            document.getElementById("profileEmail").textContent = user.email;
+            activarAnimacionesDashboard();
+            cargarDatosPersonales();
+        }
+
+        async function readApiResponse(res) {
+            const text = await res.text();
+            if (!text.trim()) {
+                return {};
+            }
+
+            try {
+                return JSON.parse(text);
+            } catch (error) {
+                throw new Error("El servidor no devolvio una respuesta JSON valida. Verifique que Flask este ejecutandose en http://127.0.0.1:5000.");
             }
         }
 
-        function handleLogout() {
+        async function apiPost(url, body, includeAuth = false) {
+            const res = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    ...(includeAuth ? authHeaders() : {})
+                },
+                body: JSON.stringify(body || {})
+            });
+            const data = await readApiResponse(res);
+            if (!res.ok) throw new Error(data.error || "No se pudo procesar la solicitud.");
+            return data;
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            try {
+                const data = await apiPost("/api/login", {
+                    username: document.getElementById("usuario").value,
+                    password: document.getElementById("contrasena").value
+                });
+                localStorage.setItem("portalToken", data.token);
+                mostrarDashboard(data.user);
+            } catch (error) {
+                showAuthError("errorMessage", error.message);
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            try {
+                const data = await apiPost("/api/register", {
+                    username: document.getElementById("registroUsuario").value,
+                    email: document.getElementById("registroEmail").value,
+                    password: document.getElementById("registroClave").value
+                });
+                localStorage.setItem("portalToken", data.token);
+                mostrarDashboard(data.user);
+            } catch (error) {
+                showAuthError("registerError", error.message);
+            }
+        }
+
+        async function handleRecoveryRequest(event) {
+            event.preventDefault();
+            try {
+                const data = await apiPost("/api/recovery/request", {
+                    email: document.getElementById("recoveryEmail").value
+                });
+                const info = document.getElementById("recoveryInfo");
+                info.textContent = data.recoveryToken
+                    ? "Codigo local: " + data.recoveryToken
+                    : data.message;
+                info.style.display = "block";
+                if (data.recoveryToken) {
+                    document.getElementById("recoveryToken").value = data.recoveryToken;
+                }
+            } catch (error) {
+                showAuthError("recoveryError", error.message);
+            }
+        }
+
+        async function handlePasswordReset() {
+            try {
+                const data = await apiPost("/api/recovery/reset", {
+                    email: document.getElementById("recoveryEmail").value,
+                    token: document.getElementById("recoveryToken").value,
+                    newPassword: document.getElementById("newPassword").value
+                });
+                const info = document.getElementById("recoveryInfo");
+                info.textContent = data.message;
+                info.style.display = "block";
+                showAuthForm("login");
+            } catch (error) {
+                showAuthError("recoveryError", error.message);
+            }
+        }
+
+        async function handleLogout() {
             if (confirm("Desea cerrar sesion?")) {
+                await apiPost("/api/logout", {}, true).catch(() => null);
                 const marcoEl = document.getElementById("marcoPortal");
                 const loginEl = document.getElementById("loginContainer");
                 marcoEl.style.display = "";
                 loginEl.style.display = "flex";
-                // Re-disparar animacion de entrada
                 loginEl.classList.remove("animando");
                 void loginEl.offsetWidth;
                 loginEl.classList.add("animando");
                 document.getElementById("dashboard").style.display = "none";
                 document.getElementById("usuario").value = "";
                 document.getElementById("contrasena").value = "";
-                localStorage.removeItem("portalUsuario");
+                localStorage.removeItem("portalToken");
+                showAuthForm("login");
             }
         }
 
@@ -1260,12 +1498,17 @@
             // Agregar eventos de partículas a inputs y botón
             agregarEventosPartículas();
 
-            // Sesion guardada
-            const usuarioGuardado = localStorage.getItem("portalUsuario");
-            if (usuarioGuardado) {
-                document.getElementById("usuario").value = usuarioGuardado;
-                document.getElementById("contrasena").value = "12345";
-                handleLogin(new Event("submit"));
+            // Sesion guardada en SQLite mediante token local
+            const token = localStorage.getItem("portalToken");
+            if (token) {
+                fetch("/api/me", { headers: authHeaders() })
+                    .then(async res => {
+                        const data = await readApiResponse(res);
+                        if (!res.ok) throw new Error(data.error || "Sesion no valida.");
+                        return data;
+                    })
+                    .then(data => mostrarDashboard(data.user))
+                    .catch(() => localStorage.removeItem("portalToken"));
             }
         });
     </script>

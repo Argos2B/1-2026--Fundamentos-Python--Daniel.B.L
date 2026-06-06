@@ -292,13 +292,13 @@ async function sendMessage() {
             body: JSON.stringify({ pregunta: text })
         });
         
+        const textResponse = await res.text();
+        const data = textResponse ? JSON.parse(textResponse) : {};
         if (!res.ok) {
-            const error = await res.json();
-            thinking.innerHTML = error.respuesta || 'Error en la solicitud.';
+            thinking.innerHTML = data.respuesta || 'Error en la solicitud.';
             return;
         }
-        
-        const data = await res.json();
+
         thinking.innerHTML = data.respuesta || 'No se pudo procesar la respuesta.';
         
     } catch (error) {
